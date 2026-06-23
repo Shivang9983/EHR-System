@@ -177,24 +177,6 @@ npm run dev
 
 ---
 
-## 🔑 Demo Credentials
-
-### Doctor
-
-```text
-Username: doctor
-Password: doctor123
-```
-
-### Receptionist
-
-```text
-Username: receptionist
-Password: receptionist123
-```
-
----
-
 ## 📸 Screenshots
 
 ### Login Page
