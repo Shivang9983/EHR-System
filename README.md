@@ -120,6 +120,11 @@ EHR-System
 │   ├── components
 │   ├── pages
 │
+├── screenshots
+│   ├── login.png
+│   ├── dashboard.png
+│   ├── patient-form.png
+│   
 └── README.md
 ```
 
