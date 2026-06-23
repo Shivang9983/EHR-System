@@ -181,19 +181,15 @@ npm run dev
 
 ### Login Page
 
-(Add Screenshot Here)
+![Login Page](./screenshots/login.png)
 
 ### Dashboard
 
-(Add Screenshot Here)
+![Dashboard](./screenshots/dashboard.png)
 
 ### Patient Registration
 
-(Add Screenshot Here)
-
-### Encounter Management
-
-(Add Screenshot Here)
+![Patient Registration](./screenshots/patient-form.png)
 
 ---
 
