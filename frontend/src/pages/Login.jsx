@@ -140,7 +140,7 @@ export default function Login() {
               disabled={loading}
               className="w-full py-2.5 mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-xs transition-colors text-sm focus:outline-none disabled:opacity-50 cursor-pointer"
             >
-              {loading ? 'Authenticating...' : isLoginTab ? 'Sign In' : 'Create Staff Profile'}
+              {loading ? 'Authenticating....' : isLoginTab ? 'Sign In' : 'Create Staff Profile'}
             </button>
           </form>
 
