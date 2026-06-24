@@ -1,94 +1,201 @@
 import { jsPDF } from 'jspdf';
 
 export const generatePatientReport = (patient, encounters = []) => {
-const doc = new jsPDF();
+  const doc = new jsPDF();
 
-let y = 20;
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
 
-doc.setFontSize(18);
-doc.text('Patient Report', 20, y);
+  let y = 25;
 
-y += 15;
 
-doc.setFontSize(12);
-doc.text(`Name: ${patient.firstName} ${patient.lastName}`, 20, y);
-y += 8;
+  doc.setFillColor(79, 70, 229);
+  doc.rect(0, 0, pageWidth, 22, 'F');
 
-doc.text(`Age: ${patient.age}`, 20, y);
-y += 8;
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(18);
+  doc.setFont('helvetica', 'bold');
+  doc.text('EHR MANAGEMENT SYSTEM', 15, 14);
 
-doc.text(`Gender: ${patient.gender}`, 20, y);
-y += 8;
+  doc.setFontSize(10);
+  doc.text(
+    `Generated: ${new Date().toLocaleDateString()}`,
+    pageWidth - 55,
+    14
+  );
 
-doc.text(`Contact: ${patient.contactNumber}`, 20, y);
-y += 8;
+  
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(20);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Patient Clinical Report', 15, y);
 
-doc.text(`Email: ${patient.email || 'N/A'}`, 20, y);
-y += 15;
+  y += 12;
 
-doc.setFont(undefined, 'bold');
-doc.text('Medical History', 20, y);
-y += 8;
 
-doc.setFont(undefined, 'normal');
+  doc.setFillColor(245, 247, 250);
+  doc.roundedRect(15, y, 180, 40, 3, 3, 'F');
 
-const history = patient.medicalHistory || 'No medical history available';
-const historyLines = doc.splitTextToSize(history, 170);
+  doc.setFontSize(13);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Patient Information', 20, y + 8);
 
-doc.text(historyLines, 20, y);
-y += historyLines.length * 6 + 10;
-
-doc.setFont(undefined, 'bold');
-doc.text('Encounters', 20, y);
-y += 10;
-
-doc.setFont(undefined, 'normal');
-
-if (encounters.length === 0) {
-doc.text('No encounters found.', 20, y);
-} else {
-encounters.forEach((encounter, index) => {
-if (y > 260) {
-doc.addPage();
-y = 20;
-}
-
-  doc.setFont(undefined, 'bold');
-  doc.text(`Encounter ${index + 1}`, 20, y);
-  y += 8;
-
-  doc.setFont(undefined, 'normal');
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
 
   doc.text(
-    `Date: ${new Date(encounter.date).toLocaleDateString()}`,
+    `Name: ${patient.firstName} ${patient.lastName}`,
     20,
-    y
+    y + 18
   );
-  y += 6;
 
-  doc.text(`Symptoms: ${encounter.symptoms}`, 20, y);
-  y += 6;
+  doc.text(
+    `Age: ${patient.age}`,
+    120,
+    y + 18
+  );
 
-  doc.text(`Diagnosis: ${encounter.diagnosis}`, 20, y);
-  y += 6;
+  doc.text(
+    `Gender: ${patient.gender}`,
+    20,
+    y + 28
+  );
 
-  if (encounter.notes) {
-    const notes = doc.splitTextToSize(
-      `Notes: ${encounter.notes}`,
-      170
-    );
+  doc.text(
+    `Contact: ${patient.contactNumber}`,
+    120,
+    y + 28
+  );
 
-    doc.text(notes, 20, y);
-    y += notes.length * 6;
-  }
+  doc.text(
+    `Email: ${patient.email || 'N/A'}`,
+    20,
+    y + 38
+  );
+
+  y += 55;
+
+ 
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(14);
+  doc.setTextColor(79, 70, 229);
+  doc.text('Medical History', 15, y);
 
   y += 8;
-});
+
+  doc.setTextColor(0, 0, 0);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(11);
+
+  const history =
+    patient.medicalHistory || 'No medical history available';
+
+  const historyLines = doc.splitTextToSize(
+    history,
+    170
+  );
+
+  doc.text(historyLines, 15, y);
+
+  y += historyLines.length * 6 + 12;
 
 
-}
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(14);
+  doc.setTextColor(79, 70, 229);
+  doc.text('Clinical Encounters', 15, y);
 
-doc.save(
-`Patient_Report_${patient.firstName}_${patient.lastName}.pdf`
-);
+  y += 10;
+
+  if (encounters.length === 0) {
+    doc.setTextColor(100);
+    doc.setFontSize(11);
+    doc.text('No encounters found.', 15, y);
+  } else {
+    encounters.forEach((encounter, index) => {
+      if (y > 240) {
+        doc.addPage();
+        y = 20;
+      }
+
+      // Encounter Card
+      doc.setFillColor(248, 250, 252);
+      doc.roundedRect(15, y, 180, 45, 2, 2, 'F');
+
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(12);
+
+      doc.text(
+        `Encounter #${index + 1}`,
+        20,
+        y + 8
+      );
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+
+      doc.text(
+        `Date: ${new Date(
+          encounter.date
+        ).toLocaleDateString()}`,
+        20,
+        y + 16
+      );
+
+      doc.text(
+        `Symptoms: ${encounter.symptoms}`,
+        20,
+        y + 24
+      );
+
+      doc.text(
+        `Diagnosis: ${encounter.diagnosis}`,
+        20,
+        y + 32
+      );
+
+      if (encounter.notes) {
+        const notes = doc.splitTextToSize(
+          `Notes: ${encounter.notes}`,
+          160
+        );
+
+        doc.text(notes, 20, y + 40);
+
+        y += Math.max(50, notes.length * 6 + 30);
+      } else {
+        y += 55;
+      }
+    });
+  }
+
+  
+  const totalPages = doc.internal.getNumberOfPages();
+
+  for (let i = 1; i <= totalPages; i++) {
+    doc.setPage(i);
+
+    doc.setDrawColor(220);
+    doc.line(15, pageHeight - 15, 195, pageHeight - 15);
+
+    doc.setFontSize(9);
+    doc.setTextColor(120);
+
+    doc.text(
+      'Generated by EHR Management System',
+      15,
+      pageHeight - 8
+    );
+
+    doc.text(
+      `Page ${i} of ${totalPages}`,
+      170,
+      pageHeight - 8
+    );
+  }
+
+  doc.save(
+    `Patient_Report_${patient.firstName}_${patient.lastName}.pdf`
+  );
 };
