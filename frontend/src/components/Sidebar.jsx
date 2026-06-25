@@ -8,7 +8,7 @@ import {
   BarChart2, 
   Settings, 
   LogOut, 
-  Activity,
+  HeartPulse,
   X 
 } from 'lucide-react';
 
@@ -71,10 +71,10 @@ export default function Sidebar({ isOpen, onClose }) {
       <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 shrink-0">
         <div className="flex items-center gap-3">
           <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-indigo-600 text-white shadow-md shadow-indigo-200">
-            <Activity className="w-5 h-5 animate-pulse" />
+            <HeartPulse className="w-5 h-5 animate-pulse" />
           </div>
           <div>
-            <h1 className="text-sm font-extrabold text-slate-900 tracking-tight">PulseEHR</h1>
+            <h1 className="text-sm font-extrabold text-slate-900 tracking-tight">EHR Management</h1>
             <p className="text-[9px] font-bold text-indigo-650 uppercase tracking-wider">Clinical Suite</p>
           </div>
         </div>

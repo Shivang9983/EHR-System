@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Menu, Calendar, ShieldCheck } from 'lucide-react';
+import { Menu, Calendar, ShieldCheck, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function Header({ onMenuToggle }) {
   const { user } = useAuth();
   const location = useLocation();
+
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem('theme') === 'dark' || 
+           (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  });
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [darkMode]);
 
   // Determine current page title
   const getPageTitle = (pathname) => {
@@ -25,7 +40,7 @@ export default function Header({ onMenuToggle }) {
     if (pathname === '/appointments') return 'Scheduled client checkups and consultations';
     if (pathname === '/reports') return 'Consolidated metric distributions and exports';
     if (pathname === '/settings') return 'Control panel configuration';
-    return 'Welcome back to PulseEHR';
+    return 'Welcome back to EHR Management';
   };
 
   const formattedDate = new Date().toLocaleDateString('en-US', {
@@ -62,6 +77,15 @@ export default function Header({ onMenuToggle }) {
           <Calendar className="w-3.5 h-3.5 text-indigo-650" />
           <span>{formattedDate}</span>
         </div>
+
+        {/* Theme Toggle Button */}
+        <button
+          onClick={() => setDarkMode(!darkMode)}
+          title="Toggle Dark Mode"
+          className="p-1.5 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 transition-colors cursor-pointer flex items-center justify-center shrink-0"
+        >
+          {darkMode ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4 text-slate-500" />}
+        </button>
 
         {/* Status Badge */}
         <div className="flex items-center gap-2 px-3 py-1.5 bg-indigo-50/50 border border-indigo-100/80 rounded-lg text-[10px] font-bold text-indigo-700 uppercase tracking-wider">
