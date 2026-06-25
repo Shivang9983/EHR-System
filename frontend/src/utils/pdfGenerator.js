@@ -5,21 +5,21 @@ export const generatePatientReport = (patient, encounters = []) => {
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
   const margin = 20;
-  const contentWidth = pageWidth - (margin * 2); // 170mm printable width
+  const contentWidth = pageWidth - (margin * 2); 
 
-  let y = 38; // Start below the header block safely
+  let y = 38; 
 
-  // ================= 1. HEADER BAR =================
+ 
   doc.setFillColor(79, 70, 229); // Indigo-600
   doc.rect(0, 0, pageWidth, 24, 'F');
 
-  // Header Title
+  
   doc.setTextColor(255, 255, 255);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(14);
   doc.text('EHR CLINICAL PORTAL', margin, 15);
 
-  // Header Date
+  
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8.5);
   doc.text(
@@ -28,7 +28,7 @@ export const generatePatientReport = (patient, encounters = []) => {
     15
   );
 
-  // ================= 2. TITLE =================
+
   doc.setTextColor(15, 23, 42); // Slate-900
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(18);
@@ -36,27 +36,27 @@ export const generatePatientReport = (patient, encounters = []) => {
   
   y += 10;
 
-  // Divider
+  
   doc.setDrawColor(226, 232, 240); // Slate-200
   doc.setLineWidth(0.5);
   doc.line(margin, y, pageWidth - margin, y);
 
   y += 8;
 
-  // ================= 3. PATIENT DEMOGRAPHICS (GRID) =================
-  doc.setFillColor(248, 250, 252); // Slate-50
-  doc.setDrawColor(226, 232, 240); // Slate-200
+ 
+  doc.setFillColor(248, 250, 252); 
+  doc.setDrawColor(226, 232, 240); 
   doc.roundedRect(margin, y, contentWidth, 38, 2, 2, 'FD');
 
-  doc.setTextColor(79, 70, 229); // Indigo-600
+  doc.setTextColor(79, 70, 229); 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(10.5);
   doc.text('Patient Information', margin + 6, y + 8);
 
-  doc.setTextColor(15, 23, 42); // Slate-900
+  doc.setTextColor(15, 23, 42); 
   doc.setFontSize(9);
   
-  // Left Column
+  
   doc.setFont('helvetica', 'bold');
   doc.text('Name:', margin + 6, y + 17);
   doc.setFont('helvetica', 'normal');
@@ -72,7 +72,7 @@ export const generatePatientReport = (patient, encounters = []) => {
   doc.setFont('helvetica', 'normal');
   doc.text(`${patient.email || 'N/A'}`, margin + 20, y + 33);
 
-  // Right Column
+
   doc.setFont('helvetica', 'bold');
   doc.text('Age:', margin + 95, y + 17);
   doc.setFont('helvetica', 'normal');
@@ -85,7 +85,7 @@ export const generatePatientReport = (patient, encounters = []) => {
 
   y += 46;
 
-  // ================= 4. MEDICAL HISTORY =================
+ 
   doc.setTextColor(79, 70, 229); // Indigo-600
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(11);
@@ -97,16 +97,16 @@ export const generatePatientReport = (patient, encounters = []) => {
   const historyLines = doc.splitTextToSize(history, contentWidth - 12);
   const historyHeight = historyLines.length * 5 + 8;
 
-  // History Card Background
+  
   doc.setFillColor(255, 255, 255);
   doc.setDrawColor(226, 232, 240);
   doc.roundedRect(margin, y, contentWidth, historyHeight, 1.5, 1.5, 'FD');
 
-  // History Indicator Bar
+  
   doc.setFillColor(79, 70, 229);
   doc.rect(margin, y, 2.5, historyHeight, 'F');
 
-  // Text
+ 
   doc.setTextColor(71, 85, 105); // Slate-600
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9);
@@ -114,7 +114,7 @@ export const generatePatientReport = (patient, encounters = []) => {
 
   y += historyHeight + 12;
 
-  // ================= 5. CLINICAL ENCOUNTERS =================
+ 
   doc.setTextColor(79, 70, 229); // Indigo-600
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(11);
@@ -144,31 +144,31 @@ export const generatePatientReport = (patient, encounters = []) => {
       const diagnosisLines = doc.splitTextToSize(diagnosis, contentWidth - 12);
       const notesLines = doc.splitTextToSize(notes, contentWidth - 12);
 
-      // Estimate box size dynamically
+      
       let encounterHeight = 35 + (symptomsLines.length * 5) + (diagnosisLines.length * 5) + (notesLines.length * 5);
       
-      // If vitals are present, add height
+     
       const hasVitals = encounter.vitals && (encounter.vitals.bloodPressure || encounter.vitals.temperature);
       if (hasVitals) encounterHeight += 12;
 
-      // Page break check
+    
       if (y + encounterHeight > pageHeight - 25) {
         doc.addPage();
-        y = 30; // reset y on new page
+        y = 30; 
       }
 
-      // Box wrapper
+      
       doc.setFillColor(255, 255, 255);
       doc.setDrawColor(226, 232, 240);
       doc.roundedRect(margin, y, contentWidth, encounterHeight, 2, 2, 'FD');
 
-      // Box header line
+     
       doc.setFillColor(248, 250, 252);
       doc.roundedRect(margin, y, contentWidth, 9, 2, 2, 'F');
       doc.rect(margin, y + 7, contentWidth, 2, 'F'); // cover bottom rounded corners of background
 
-      // Title & Date
-      doc.setTextColor(15, 23, 42); // Slate-900
+      
+      doc.setTextColor(15, 23, 42);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(9.5);
       doc.text(`Encounter Note #${encounters.length - index}`, margin + 6, y + 6);
@@ -180,7 +180,7 @@ export const generatePatientReport = (patient, encounters = []) => {
 
       let innerY = y + 15;
 
-      // Vitals block
+      
       if (hasVitals) {
         doc.setFillColor(248, 250, 252);
         doc.setDrawColor(226, 232, 240);
@@ -201,7 +201,7 @@ export const generatePatientReport = (patient, encounters = []) => {
         innerY += 12;
       }
 
-      // Symptoms
+      
       doc.setTextColor(15, 23, 42);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(8.5);
@@ -212,7 +212,7 @@ export const generatePatientReport = (patient, encounters = []) => {
       
       innerY += (symptomsLines.length * 5) + 6;
 
-      // Diagnosis
+     
       doc.setTextColor(15, 23, 42);
       doc.setFont('helvetica', 'bold');
       doc.text('Assessment & Diagnosis:', margin + 6, innerY);
@@ -222,7 +222,7 @@ export const generatePatientReport = (patient, encounters = []) => {
 
       innerY += (diagnosisLines.length * 5) + 6;
 
-      // Notes
+      
       doc.setTextColor(15, 23, 42);
       doc.setFont('helvetica', 'bold');
       doc.text('Plan & Notes:', margin + 6, innerY);
@@ -234,7 +234,7 @@ export const generatePatientReport = (patient, encounters = []) => {
     });
   }
 
-  // ================= 6. PAGE NUMBERS FOOTER =================
+  
   const totalPages = doc.internal.getNumberOfPages();
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
@@ -250,3 +250,5 @@ export const generatePatientReport = (patient, encounters = []) => {
 
   doc.save(`Patient_Chart_Report_${patient.firstName}_${patient.lastName}.pdf`);
 };
+
+
