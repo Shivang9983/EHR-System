@@ -179,7 +179,7 @@ router.put('/:id', protect, async (req, res) => {
   }
 });
 
-// Delete patient
+
 router.delete('/:id', protect, async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
