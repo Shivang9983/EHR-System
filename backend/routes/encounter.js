@@ -5,7 +5,7 @@ const Patient = require('../models/Patient');
 const AuditLog = require('../models/AuditLog');
 const { protect } = require('../middleware/auth');
 
-// Get encounters by patient
+
 router.get('/patient/:patientId', protect, async (req, res) => {
   try {
     const encountersList = await Encounter.find({ patientId: req.params.patientId })
@@ -19,7 +19,7 @@ router.get('/patient/:patientId', protect, async (req, res) => {
   }
 });
 
-// Get encounter details
+
 router.get('/:id', protect, async (req, res) => {
   try {
     const encounter = await Encounter.findById(req.params.id)
@@ -37,7 +37,7 @@ router.get('/:id', protect, async (req, res) => {
   }
 });
 
-// Log clinical encounter
+
 router.post('/', protect, async (req, res) => {
   try {
     const { patientId, symptoms, diagnosis, notes, vitals, date } = req.body;
@@ -75,7 +75,7 @@ router.post('/', protect, async (req, res) => {
 
     const savedEncounter = await newEncounter.save();
 
-    // Log the audit event using compliant field names
+
     await AuditLog.create({
       operatorId: req.user._id,
       actionPerformed: 'CREATE_ENCOUNTER',
