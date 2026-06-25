@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
-// import DashboardLayout from './components/DashboardLayout';
+import DashboardLayout from './components/DashboardLayout';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import PatientList from './pages/PatientList';
@@ -42,10 +42,9 @@ export default function App() {
           path="/dashboard"
           element={
             <ProtectedRoute>
-              {/* <DashboardLayout>
+              <DashboardLayout>
+                <Dashboard />
               </DashboardLayout>
-               */}
-               <Dashboard />
             </ProtectedRoute>
           }
         />
@@ -53,9 +52,9 @@ export default function App() {
           path="/patients"
           element={
             <ProtectedRoute>
-              
+              <DashboardLayout>
                 <PatientList />
-              
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />
@@ -63,9 +62,9 @@ export default function App() {
           path="/patients/:id"
           element={
             <ProtectedRoute>
-              
+              <DashboardLayout>
                 <PatientChart />
-              
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />
@@ -73,9 +72,9 @@ export default function App() {
           path="/appointments"
           element={
             <ProtectedRoute>
-              
+              <DashboardLayout>
                 <Appointments />
-              
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />
@@ -83,9 +82,9 @@ export default function App() {
           path="/reports"
           element={
             <ProtectedRoute>
-             
+              <DashboardLayout>
                 <Reports />
-             
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />
@@ -93,10 +92,9 @@ export default function App() {
           path="/settings"
           element={
             <ProtectedRoute>
-              {/* <DashboardLayout>
+              <DashboardLayout>
                 <Settings />
-              </DashboardLayout> */}
-              <Settings />
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />
