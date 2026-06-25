@@ -2,229 +2,251 @@ import { jsPDF } from 'jspdf';
 
 export const generatePatientReport = (patient, encounters = []) => {
   const doc = new jsPDF();
-
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
+  const margin = 20;
+  const contentWidth = pageWidth - (margin * 2); // 170mm printable width
 
-  let y = 25;
+  let y = 38; // Start below the header block safely
 
-  // ================= HEADER =================
-  doc.setFillColor(79, 70, 229);
-  doc.rect(0, 0, pageWidth, 22, 'F');
+  // ================= 1. HEADER BAR =================
+  doc.setFillColor(79, 70, 229); // Indigo-600
+  doc.rect(0, 0, pageWidth, 24, 'F');
 
+  // Header Title
   doc.setTextColor(255, 255, 255);
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(18);
-  doc.text('EHR MANAGEMENT SYSTEM', 15, 14);
-
-  doc.setFontSize(9);
-  doc.text(
-    `Generated: ${new Date().toLocaleDateString()}`,
-    pageWidth - 50,
-    14
-  );
-
-  // ================= TITLE =================
-  doc.setTextColor(0, 0, 0);
-  doc.setFontSize(20);
-  doc.text('Patient Clinical Report', 15, y);
-
-  y += 15;
-
-  // ================= PATIENT CARD =================
-  doc.setFillColor(245, 247, 250);
-  doc.roundedRect(15, y, 180, 42, 3, 3, 'F');
-
-  doc.setFontSize(13);
-  doc.setFont('helvetica', 'bold');
-  doc.text('Patient Information', 20, y + 8);
-
-  doc.setFontSize(11);
-  doc.setFont('helvetica', 'normal');
-
-  doc.text(
-    `Name: ${patient.firstName} ${patient.lastName}`,
-    20,
-    y + 18
-  );
-
-  doc.text(
-    `Age: ${patient.age}`,
-    120,
-    y + 18
-  );
-
-  doc.text(
-    `Gender: ${patient.gender}`,
-    20,
-    y + 28
-  );
-
-  doc.text(
-    `Contact: ${patient.contactNumber}`,
-    120,
-    y + 28
-  );
-
-  doc.text(
-    `Email: ${patient.email || 'N/A'}`,
-    20,
-    y + 38
-  );
-
-  y += 55;
-
-  // ================= MEDICAL HISTORY =================
-  doc.setTextColor(79, 70, 229);
-  doc.setFont('helvetica', 'bold');
   doc.setFontSize(14);
-  doc.text('Medical History', 15, y);
+  doc.text('EHR CLINICAL PORTAL', margin, 15);
+
+  // Header Date
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8.5);
+  doc.text(
+    `Date generated: ${new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}`,
+    pageWidth - margin - 60,
+    15
+  );
+
+  // ================= 2. TITLE =================
+  doc.setTextColor(15, 23, 42); // Slate-900
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(18);
+  doc.text('Patient Clinical Chart Summary', margin, y);
+  
+  y += 10;
+
+  // Divider
+  doc.setDrawColor(226, 232, 240); // Slate-200
+  doc.setLineWidth(0.5);
+  doc.line(margin, y, pageWidth - margin, y);
 
   y += 8;
 
-  const history =
-    patient.medicalHistory || 'No medical history available';
+  // ================= 3. PATIENT DEMOGRAPHICS (GRID) =================
+  doc.setFillColor(248, 250, 252); // Slate-50
+  doc.setDrawColor(226, 232, 240); // Slate-200
+  doc.roundedRect(margin, y, contentWidth, 38, 2, 2, 'FD');
 
-  const historyLines = doc.splitTextToSize(history, 165);
+  doc.setTextColor(79, 70, 229); // Indigo-600
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(10.5);
+  doc.text('Patient Information', margin + 6, y + 8);
 
-  const historyHeight =
-    Math.max(18, historyLines.length * 6 + 8);
-
-  doc.setFillColor(248, 250, 252);
-  doc.roundedRect(
-    15,
-    y - 5,
-    180,
-    historyHeight,
-    2,
-    2,
-    'F'
-  );
-
-  doc.setTextColor(0, 0, 0);
+  doc.setTextColor(15, 23, 42); // Slate-900
+  doc.setFontSize(9);
+  
+  // Left Column
+  doc.setFont('helvetica', 'bold');
+  doc.text('Name:', margin + 6, y + 17);
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(11);
+  doc.text(`${patient.firstName} ${patient.lastName}`, margin + 20, y + 17);
 
-  doc.text(historyLines, 20, y + 3);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Gender:', margin + 6, y + 25);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`${patient.gender}`, margin + 20, y + 25);
+
+  doc.setFont('helvetica', 'bold');
+  doc.text('Email:', margin + 6, y + 33);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`${patient.email || 'N/A'}`, margin + 20, y + 33);
+
+  // Right Column
+  doc.setFont('helvetica', 'bold');
+  doc.text('Age:', margin + 95, y + 17);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`${patient.age} Years`, margin + 112, y + 17);
+
+  doc.setFont('helvetica', 'bold');
+  doc.text('Contact:', margin + 95, y + 25);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`${patient.contactNumber}`, margin + 112, y + 25);
+
+  y += 46;
+
+  // ================= 4. MEDICAL HISTORY =================
+  doc.setTextColor(79, 70, 229); // Indigo-600
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(11);
+  doc.text('Chronic Clinical History & Allergies', margin, y);
+
+  y += 5;
+
+  const history = patient.medicalHistory || 'No pre-existing clinical history or drug allergies declared.';
+  const historyLines = doc.splitTextToSize(history, contentWidth - 12);
+  const historyHeight = historyLines.length * 5 + 8;
+
+  // History Card Background
+  doc.setFillColor(255, 255, 255);
+  doc.setDrawColor(226, 232, 240);
+  doc.roundedRect(margin, y, contentWidth, historyHeight, 1.5, 1.5, 'FD');
+
+  // History Indicator Bar
+  doc.setFillColor(79, 70, 229);
+  doc.rect(margin, y, 2.5, historyHeight, 'F');
+
+  // Text
+  doc.setTextColor(71, 85, 105); // Slate-600
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.text(historyLines, margin + 8, y + 6);
 
   y += historyHeight + 12;
 
-  // ================= ENCOUNTERS =================
-  doc.setTextColor(79, 70, 229);
+  // ================= 5. CLINICAL ENCOUNTERS =================
+  doc.setTextColor(79, 70, 229); // Indigo-600
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(14);
-  doc.text('Clinical Encounters', 15, y);
+  doc.setFontSize(11);
+  doc.text('Clinical Encounter Log Timeline', margin, y);
 
-  y += 10;
+  y += 7;
 
   if (encounters.length === 0) {
-    doc.setTextColor(120);
-    doc.text('No encounters found.', 15, y);
+    doc.setTextColor(100);
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(9);
+    doc.text('No recorded clinical encounters registered.', margin + 4, y + 2);
   } else {
     encounters.forEach((encounter, index) => {
+      const dateStr = new Date(encounter.date).toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+      const provider = encounter.providerId?.username || 'Authorized Staff';
+      
       const symptoms = encounter.symptoms || 'N/A';
       const diagnosis = encounter.diagnosis || 'N/A';
-      const notes = encounter.notes || 'No notes available';
+      const notes = encounter.notes || '—';
 
-      const notesLines = doc.splitTextToSize(notes, 150);
+      const symptomsLines = doc.splitTextToSize(symptoms, contentWidth - 12);
+      const diagnosisLines = doc.splitTextToSize(diagnosis, contentWidth - 12);
+      const notesLines = doc.splitTextToSize(notes, contentWidth - 12);
 
-      const cardHeight =
-        45 + notesLines.length * 5;
+      // Estimate box size dynamically
+      let encounterHeight = 35 + (symptomsLines.length * 5) + (diagnosisLines.length * 5) + (notesLines.length * 5);
+      
+      // If vitals are present, add height
+      const hasVitals = encounter.vitals && (encounter.vitals.bloodPressure || encounter.vitals.temperature);
+      if (hasVitals) encounterHeight += 12;
 
-      if (y + cardHeight > 260) {
+      // Page break check
+      if (y + encounterHeight > pageHeight - 25) {
         doc.addPage();
-        y = 20;
+        y = 30; // reset y on new page
       }
 
+      // Box wrapper
+      doc.setFillColor(255, 255, 255);
+      doc.setDrawColor(226, 232, 240);
+      doc.roundedRect(margin, y, contentWidth, encounterHeight, 2, 2, 'FD');
+
+      // Box header line
       doc.setFillColor(248, 250, 252);
-      doc.roundedRect(
-        15,
-        y,
-        180,
-        cardHeight,
-        2,
-        2,
-        'F'
-      );
+      doc.roundedRect(margin, y, contentWidth, 9, 2, 2, 'F');
+      doc.rect(margin, y + 7, contentWidth, 2, 'F'); // cover bottom rounded corners of background
 
+      // Title & Date
+      doc.setTextColor(15, 23, 42); // Slate-900
       doc.setFont('helvetica', 'bold');
-      doc.setTextColor(0, 0, 0);
-      doc.setFontSize(12);
+      doc.setFontSize(9.5);
+      doc.text(`Encounter Note #${encounters.length - index}`, margin + 6, y + 6);
 
-      doc.text(
-        `Encounter #${index + 1}`,
-        20,
-        y + 8
-      );
-
+      doc.setTextColor(100);
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
+      doc.setFontSize(8.5);
+      doc.text(`Date: ${dateStr}  |  Clinician: Dr. ${provider}`, pageWidth - margin - 85, y + 6);
 
-      doc.text(
-        `Date: ${new Date(
-          encounter.date
-        ).toLocaleDateString()}`,
-        20,
-        y + 16
-      );
+      let innerY = y + 15;
 
+      // Vitals block
+      if (hasVitals) {
+        doc.setFillColor(248, 250, 252);
+        doc.setDrawColor(226, 232, 240);
+        doc.roundedRect(margin + 6, innerY, contentWidth - 12, 8, 1, 1, 'FD');
+
+        doc.setTextColor(71, 85, 105);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(8);
+        doc.text('Vitals Metrics:', margin + 10, innerY + 5.5);
+
+        doc.setFont('helvetica', 'normal');
+        const bpVal = encounter.vitals.bloodPressure || '—';
+        const tempVal = encounter.vitals.temperature ? `${encounter.vitals.temperature} °F` : '—';
+        const pulseVal = encounter.vitals.pulse ? `${encounter.vitals.pulse} bpm` : '—';
+        const respVal = encounter.vitals.respiratoryRate ? `${encounter.vitals.respiratoryRate}` : '—';
+        
+        doc.text(`BP: ${bpVal}   |   Temp: ${tempVal}   |   Pulse: ${pulseVal}   |   Resp: ${respVal}`, margin + 35, innerY + 5.5);
+        innerY += 12;
+      }
+
+      // Symptoms
+      doc.setTextColor(15, 23, 42);
       doc.setFont('helvetica', 'bold');
-      doc.text('Symptoms:', 20, y + 24);
-
+      doc.setFontSize(8.5);
+      doc.text('Chief Complaint & Symptoms:', margin + 6, innerY);
       doc.setFont('helvetica', 'normal');
-      doc.text(symptoms, 50, y + 24);
+      doc.setTextColor(71, 85, 105);
+      doc.text(symptomsLines, margin + 6, innerY + 4.5);
+      
+      innerY += (symptomsLines.length * 5) + 6;
 
+      // Diagnosis
+      doc.setTextColor(15, 23, 42);
       doc.setFont('helvetica', 'bold');
-      doc.text('Diagnosis:', 20, y + 32);
-
+      doc.text('Assessment & Diagnosis:', margin + 6, innerY);
       doc.setFont('helvetica', 'normal');
-      doc.text(diagnosis, 50, y + 32);
+      doc.setTextColor(71, 85, 105);
+      doc.text(diagnosisLines, margin + 6, innerY + 4.5);
 
+      innerY += (diagnosisLines.length * 5) + 6;
+
+      // Notes
+      doc.setTextColor(15, 23, 42);
       doc.setFont('helvetica', 'bold');
-      doc.text('Notes:', 20, y + 40);
-
+      doc.text('Plan & Notes:', margin + 6, innerY);
       doc.setFont('helvetica', 'normal');
-      doc.text(notesLines, 50, y + 40);
+      doc.setTextColor(71, 85, 105);
+      doc.text(notesLines, margin + 6, innerY + 4.5);
 
-      y += cardHeight + 10;
+      y += encounterHeight + 8;
     });
   }
 
-  // ================= FOOTER =================
-  const totalPages =
-    doc.internal.getNumberOfPages();
-
+  // ================= 6. PAGE NUMBERS FOOTER =================
+  const totalPages = doc.internal.getNumberOfPages();
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
+    doc.setDrawColor(226, 232, 240);
+    doc.setLineWidth(0.5);
+    doc.line(margin, pageHeight - 15, pageWidth - margin, pageHeight - 15);
 
-    doc.setDrawColor(220);
-    doc.line(
-      15,
-      pageHeight - 15,
-      pageWidth - 15,
-      pageHeight - 15
-    );
-
-    doc.setFontSize(9);
-    doc.setTextColor(120);
-
-    doc.text(
-      'Generated by EHR Clinical Portal',
-      15,
-      pageHeight - 8
-    );
-
-    doc.text(
-      `Page ${i} of ${totalPages}`,
-      pageWidth - 35,
-      pageHeight - 8
-    );
+    doc.setFontSize(7.5);
+    doc.setTextColor(148, 163, 184); // Slate-400
+    doc.text('EHR Clinical Summary Report  |  Confidential Medical Record', margin, pageHeight - 10);
+    doc.text(`Page ${i} of ${totalPages}`, pageWidth - margin - 20, pageHeight - 10);
   }
 
-  doc.save(
-    `Patient_Report_${patient.firstName}_${patient.lastName}.pdf`
-  );
+  doc.save(`Patient_Chart_Report_${patient.firstName}_${patient.lastName}.pdf`);
 };
-
-
-
