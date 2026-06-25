@@ -24,3 +24,194 @@
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-slate-400;
 }
+
+/* Dark Mode Overrides */
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background-color: #000000 !important;
+  color: #e4e4e7 !important;
+}
+
+/* Base backgrounds & surfaces */
+html.dark .bg-white,
+html.dark aside,
+html.dark .bg-white\/80 {
+  background-color: #121212 !important;
+}
+
+html.dark header,
+html.dark header.bg-white\/80 {
+  background-color: rgba(18, 18, 18, 0.8) !important;
+}
+
+html.dark .bg-slate-50 {
+  background-color: #000000 !important;
+}
+
+html.dark .bg-slate-50\/50 {
+  background-color: rgba(24, 24, 27, 0.4) !important;
+}
+
+html.dark .bg-slate-100 {
+  background-color: #1c1c1e !important;
+}
+
+html.dark .bg-slate-100\/70 {
+  background-color: rgba(28, 28, 30, 0.7) !important;
+}
+
+/* Unified borders */
+html.dark .border-slate-200,
+html.dark .border-slate-200\/80,
+html.dark .border-slate-100,
+html.dark .border-slate-300,
+html.dark hr {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Text color variants */
+html.dark .text-slate-900,
+html.dark .text-slate-805,
+html.dark .text-slate-850 {
+  color: #ffffff !important;
+}
+
+html.dark .text-slate-800 {
+  color: #e4e4e7 !important;
+}
+
+html.dark .text-slate-500,
+html.dark .text-slate-600,
+html.dark .text-slate-655 {
+  color: #a1a1aa !important;
+}
+
+html.dark .text-slate-400,
+html.dark .text-slate-450 {
+  color: #71717a !important;
+}
+
+/* Forms & inputs style */
+html.dark input,
+html.dark select,
+html.dark textarea {
+  background-color: #0a0a0a !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+html.dark input:focus,
+html.dark select:focus,
+html.dark textarea:focus {
+  border-color: rgba(99, 102, 241, 0.6) !important;
+  outline: none;
+}
+
+html.dark input::placeholder {
+  color: #52525b !important;
+}
+
+html.dark select option {
+  background-color: #121212 !important;
+  color: #ffffff !important;
+}
+
+/* Hover effects & separators */
+html.dark .hover\:bg-slate-50:hover,
+html.dark .hover\:bg-slate-50\/40:hover {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+html.dark .divide-slate-100 > * + * {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Recharts grid lines & charts overrides */
+html.dark .recharts-cartesian-grid line {
+  stroke: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .recharts-default-tooltip {
+  background-color: #121212 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+
+/* Table overrides */
+html.dark thead tr {
+  background-color: rgba(28, 28, 30, 0.4) !important;
+}
+
+html.dark table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+/* Responsive containers and modal backdrops */
+html.dark .bg-slate-900\/40 {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+html.dark .shadow-xs,
+html.dark .shadow-2xs,
+html.dark .shadow-3xs {
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Active links navigation state */
+html.dark .bg-indigo-50 {
+  background-color: rgba(99, 102, 241, 0.1) !important;
+  color: #818cf8 !important;
+}
+
+html.dark .text-indigo-700 {
+  color: #818cf8 !important;
+}
+
+html.dark .border-indigo-600 {
+  border-color: #6366f1 !important;
+}
+
+/* Quick Actions buttons formatting in dark mode */
+html.dark .border-indigo-100,
+html.dark .border-emerald-100,
+html.dark .border-amber-100 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .bg-indigo-50.text-indigo-700 {
+  background-color: rgba(99, 102, 241, 0.1) !important;
+  color: #818cf8 !important;
+}
+html.dark .bg-emerald-50.text-emerald-700 {
+  background-color: rgba(16, 185, 129, 0.1) !important;
+  color: #34d399 !important;
+}
+html.dark .bg-amber-50.text-amber-700 {
+  background-color: rgba(245, 158, 11, 0.1) !important;
+  color: #fbbf24 !important;
+}
+html.dark .bg-slate-100.text-slate-700 {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  color: #d4d4d8 !important;
+}
+
+html.dark .text-indigo-650,
+html.dark .text-indigo-755 {
+  color: #818cf8 !important;
+}
+
+/* Custom scrollbars dark overrides */
+html.dark ::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+
+
