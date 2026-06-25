@@ -73,7 +73,7 @@ export default function Dashboard() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-xl bg-white border border-slate-200 shadow-xs">
         <div>
           <h1 className="text-base font-bold text-slate-900 tracking-tight">
-            Welcome back, <span className="text-indigo-650">{user?.username}</span> 👋
+            Welcome back, <span className="text-indigo-650">{user?.role === 'Doctor' ? `Dr. ${user?.username}` : user?.username}</span> 👋
           </h1>
           <p className="mt-1 text-xs text-slate-500">
             Clinical Overview Dashboard • Logged as <span className="font-semibold text-slate-700 capitalize">{user?.role?.toLowerCase()}</span>
