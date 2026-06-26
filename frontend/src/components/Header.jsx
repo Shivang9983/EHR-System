@@ -88,7 +88,7 @@ export default function Header({ onMenuToggle }) {
         </button>
 
         {/* Status Badge */}
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-indigo-50/50 border border-indigo-100/80 rounded-lg text-[10px] font-bold text-indigo-700 uppercase tracking-wider">
+        <div className="flex items-center gap-2 px-3 py-1.5 bg- dark-white border border-indigo-100/80 rounded-lg text-[10px] font-bold text-indigo-700 uppercase tracking-wider">
           <ShieldCheck className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
           <span className="hidden sm:inline">{user?.role} Active</span>
           <span className="sm:hidden">{user?.role}</span>
