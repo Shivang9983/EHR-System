@@ -140,8 +140,8 @@ export default function PatientFilesSection({ patientId }) {
 
       {/* Upload Form - Doctors and Admins only */}
       {user?.role !== 'Receptionist' ? (
-        <form onSubmit={handleUploadSubmit} className="p-4 bg-slate-50 border border-slate-200 rounded-lg space-y-4 text-xs">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <form onSubmit={handleUploadSubmit} className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3.5 text-xs">
+          <div className="space-y-3">
             <div>
               <label className="block mb-1 text-[10px] font-bold text-slate-500 uppercase tracking-wide">Document Name *</label>
               <input
@@ -150,7 +150,7 @@ export default function PatientFilesSection({ patientId }) {
                 value={fileName}
                 onChange={(e) => setFileName(e.target.value)}
                 placeholder="e.g. Chest X-Ray Report"
-                className="w-full px-3 py-1.5 rounded-lg bg-white border border-slate-350 text-slate-800 focus:outline-none"
+                className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 text-xs transition-all"
               />
             </div>
             <div>
@@ -158,7 +158,7 @@ export default function PatientFilesSection({ patientId }) {
               <select
                 value={fileType}
                 onChange={(e) => setFileType(e.target.value)}
-                className="w-full px-3 py-1.5 rounded-lg bg-white border border-slate-350 text-slate-850 focus:outline-none"
+                className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 text-xs transition-all"
               >
                 <option value="Medical Document">Medical Document</option>
                 <option value="Report">Report</option>
@@ -173,23 +173,23 @@ export default function PatientFilesSection({ patientId }) {
                 type="file"
                 required
                 onChange={handleFileChange}
-                className="w-full px-3 py-1 bg-white border border-slate-350 rounded-lg text-slate-600 focus:outline-none file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer"
+                className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-slate-600 focus:outline-none file:mr-2.5 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-semibold file:bg-indigo-50 file:text-indigo-750 hover:file:bg-indigo-100 cursor-pointer text-xs"
               />
             </div>
           </div>
 
-          <div className="flex items-center justify-between gap-3 pt-1">
-            <div className="text-[10px]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-slate-100">
+            <div className="text-[10px] min-h-[14px]">
               {errorMsg && <span className="text-rose-600 font-bold">{errorMsg}</span>}
               {successMsg && <span className="text-emerald-600 font-bold">{successMsg}</span>}
             </div>
             <button
               type="submit"
               disabled={uploading}
-              className="flex items-center justify-center gap-1.5 px-3 py-1.5 bg-indigo-650 hover:bg-indigo-700 disabled:bg-indigo-300 text-white font-bold rounded-lg cursor-pointer transition-colors"
+              className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-bold rounded-lg cursor-pointer transition-colors shadow-xs"
             >
               <Upload className="w-3.5 h-3.5" />
-              <span>{uploading ? 'Uploading...' : 'Upload File'}</span>
+              <span>{uploading ? 'Uploading...' : 'Upload Document'}</span>
             </button>
           </div>
         </form>
