@@ -26,13 +26,11 @@ const patientSchema = new mongoose.Schema(
     },
     contactNumber: {
       type: String,
-      unique:true,
       required: true,
       trim: true,
     },
     email: {
       type: String,
-      unique: true,
       trim: true,
       lowercase: true,
     },
@@ -43,6 +41,11 @@ const patientSchema = new mongoose.Schema(
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
+      required: true,
+    },
+    organization: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Organization',
       required: true,
     },
   },
@@ -57,5 +60,8 @@ patientSchema.virtual('fullName').get(function () {
 
 patientSchema.set('toJSON', { virtuals: true });
 patientSchema.set('toObject', { virtuals: true });
+
+patientSchema.index({ organization: 1, contactNumber: 1 }, { unique: true });
+patientSchema.index({ organization: 1, email: 1 }, { unique: true, sparse: true });
 
 module.exports = mongoose.model('Patient', patientSchema);

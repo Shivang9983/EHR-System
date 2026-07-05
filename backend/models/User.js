@@ -20,8 +20,13 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       required: true,
-      enum: ['Doctor', 'Receptionist'],
+      enum: ['Admin', 'Doctor', 'Receptionist'],
       default: 'Doctor',
+    },
+    organization: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Organization',
+      required: true,
     },
   },
   {

@@ -50,9 +50,12 @@ export default function Settings() {
     }
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register-staff`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({
           username: staffData.username.trim(),
           password: staffData.password,
@@ -99,7 +102,7 @@ export default function Settings() {
           <Shield className="w-4 h-4" />
           <span>Security</span>
         </button>
-        {user?.role === 'Doctor' && (
+        {user?.role === 'Admin' && (
           <button
             onClick={() => { setActiveTab('staff'); setErrorMsg(''); setSuccessMsg(''); }}
             className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold border-b-2 transition-all cursor-pointer ${
@@ -143,11 +146,8 @@ export default function Settings() {
                 <span className="font-bold text-slate-700">{user?.role}</span>
               </div>
               <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg col-span-2">
-                <span className="text-slate-400 block mb-0.5">Portal Status</span>
-                <span className="font-semibold text-slate-750 flex items-center gap-1.5 mt-0.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                  Active session
-                </span>
+                <span className="text-slate-400 block mb-0.5">Healthcare Organization</span>
+                <span className="font-bold text-indigo-700">{user?.organizationName || user?.organization?.name || 'Default Health Clinic'}</span>
               </div>
             </div>
           </div>

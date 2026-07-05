@@ -10,30 +10,20 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [stats, setStats] = useState({ totalPatients: 0, totalEncounters: 0, appointmentsToday: 0, activeStaff: 2 });
   const [recentPatients, setRecentPatients] = useState([]);
+  const [chartData, setChartData] = useState([]);
   const [isPatientModalOpen, setIsPatientModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const loadDashboardData = async () => {
     try {
       setLoading(true);
-      const res = await authFetch('/api/patients');
+      const res = await authFetch('/api/analytics/dashboard');
       const data = await res.json();
 
       if (data.success) {
-        setRecentPatients(data.patients.slice(0, 5));
-
-        // Fetch appointments from localStorage to show real today's count
-        const savedAppts = localStorage.getItem('ehr_appointments');
-        const appointmentsList = savedAppts ? JSON.parse(savedAppts) : [];
-        const todayStr = '2026-06-25'; // Fixed mock today for the EHR workspace
-        const todayCount = appointmentsList.filter(a => a.date === todayStr).length;
-
-        setStats({
-          totalPatients: data.patients.length,
-          totalEncounters: Math.round(data.patients.length * 2.3),
-          appointmentsToday: todayCount || 3,
-          activeStaff: user?.role === 'Doctor' ? 3 : 2
-        });
+        setRecentPatients(data.recentPatients || []);
+        setStats(data.stats || { totalPatients: 0, totalEncounters: 0, appointmentsToday: 0, activeStaff: 2 });
+        setChartData(data.trendData || []);
       }
     } catch (err) {
       console.error('Error fetching dashboard datasets:', err);
@@ -51,15 +41,7 @@ export default function Dashboard() {
     navigate(`/patients/${newPatient._id}`);
   };
 
-  // Mock Visit Analytics (Jan - Jun 2026)
-  const chartData = [
-    { name: 'Jan', visits: 12, checkups: 8 },
-    { name: 'Feb', visits: 18, checkups: 12 },
-    { name: 'Mar', visits: 15, checkups: 10 },
-    { name: 'Apr', visits: 22, checkups: 16 },
-    { name: 'May', visits: stats.totalPatients * 1.5 || 25, checkups: stats.totalPatients || 18 },
-    { name: 'Jun', visits: stats.totalPatients * 2 || 35, checkups: stats.totalPatients * 1.2 || 24 }
-  ];
+  // Chart dataset is populated from database stats
 
   const quickActions = [
     { label: 'Register Patient', icon: UserPlus, action: () => setIsPatientModalOpen(true), color: 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100/70 border-indigo-100' },

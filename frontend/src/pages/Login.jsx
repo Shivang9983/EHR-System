@@ -10,7 +10,7 @@ export default function Login() {
   const [isLoginTab, setIsLoginTab] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('Doctor');
+  const [orgName, setOrgName] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function Login() {
 
     const payload = isLoginTab
       ? await login(username.trim(), password)
-      : await signup(username.trim(), password, role);
+      : await signup(username.trim(), password, orgName);
 
     if (payload.success) {
       navigate('/dashboard');
@@ -103,34 +103,18 @@ export default function Login() {
           </div>
 
           {!isLoginTab && (
-            <div className="space-y-2">
-              <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                Clinical Role
+            <div>
+              <label className="block mb-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                Organization Name
               </label>
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  onClick={() => setRole('Doctor')}
-                  className={`py-2 px-4 rounded-lg font-bold text-xs border transition-all cursor-pointer ${
-                    role === 'Doctor'
-                      ? 'bg-slate-50 border-slate-300 text-indigo-700 font-bold'
-                      : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
-                  }`}
-                >
-                  Doctor
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setRole('Receptionist')}
-                  className={`py-2 px-4 rounded-lg font-bold text-xs border transition-all cursor-pointer ${
-                    role === 'Receptionist'
-                      ? 'bg-slate-50 border-slate-300 text-indigo-700 font-bold'
-                      : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'
-                  }`}
-                >
-                  Receptionist
-                </button>
-              </div>
+              <input
+                type="text"
+                required
+                value={orgName}
+                onChange={(e) => setOrgName(e.target.value)}
+                placeholder="e.g. Green Valley Clinic"
+                className="w-full px-4 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 text-xs transition-all"
+              />
             </div>
           )}
 
@@ -139,7 +123,7 @@ export default function Login() {
             disabled={loading}
             className="w-full flex items-center justify-center gap-1.5 py-2.5 mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-xs transition-colors text-xs focus:outline-none disabled:opacity-50 cursor-pointer"
           >
-            <span>{loading ? 'Authenticating...' : isLoginTab ? 'Sign In to Portal' : 'Create Staff Profile'}</span>
+            <span>{loading ? 'Authenticating...' : isLoginTab ? 'Sign In to Portal' : 'Register Organization'}</span>
             {!loading && <ArrowRight className="w-3.5 h-3.5" />}
           </button>
         </form>
@@ -153,7 +137,7 @@ export default function Login() {
             className="text-xs text-indigo-650 hover:text-indigo-850 font-semibold hover:underline focus:outline-none cursor-pointer"
           >
             {isLoginTab
-              ? 'Register a new clinical staff account'
+              ? 'Register a new SaaS organization'
               : 'Already registered? Sign in'}
           </button>
         </div>

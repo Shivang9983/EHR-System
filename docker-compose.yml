@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: ehr-backend
+    ports:
+      - '5000:5000'
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb+srv://shivangkumar295_db_user:jonsnow1234@chatcluster.ll8fmvo.mongodb.net/ehr_prod?retryWrites=true&w=majority&appName=chatCluster
+      - JWT_SECRET=8f4a2d7c1b9e5f3a6d8e2c7f9a1b4e6d
+      - NODE_ENV=production
+      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
+      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
+      - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        - VITE_API_URL=http://localhost:5000
+    container_name: ehr-frontend
+    ports:
+      - '3000:80'
+    depends_on:
+      - backend
+    restart: always

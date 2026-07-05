@@ -3,13 +3,26 @@ const router = express.Router();
 const Encounter = require('../models/Encounter');
 const Patient = require('../models/Patient');
 const AuditLog = require('../models/AuditLog');
-const { protect } = require('../middleware/auth');
+const { protect, checkRole } = require('../middleware/auth');
 
-
-router.get('/patient/:patientId', protect, async (req, res) => {
+// Get encounters timeline for a patient
+router.get('/patient/:patientId', protect, checkRole(['Admin', 'Doctor']), async (req, res) => {
   try {
-    const encountersList = await Encounter.find({ patientId: req.params.patientId })
-      .populate('providerId', 'username role') // Note: using username now!
+    // Make sure patient belongs to organization
+    const checkPatient = await Patient.findOne({
+      _id: req.params.patientId,
+      organization: req.user.organization._id,
+    });
+
+    if (!checkPatient) {
+      return res.status(404).json({ success: false, message: 'Patient not found in this organization.' });
+    }
+
+    const encountersList = await Encounter.find({
+      patientId: req.params.patientId,
+      organization: req.user.organization._id,
+    })
+      .populate('providerId', 'username role')
       .sort({ date: -1 });
 
     res.json({ success: true, count: encountersList.length, encounters: encountersList });
@@ -19,14 +32,21 @@ router.get('/patient/:patientId', protect, async (req, res) => {
   }
 });
 
-
-router.get('/:id', protect, async (req, res) => {
+// Get single encounter details
+router.get('/:id', protect, checkRole(['Admin', 'Doctor']), async (req, res) => {
   try {
-    const encounter = await Encounter.findById(req.params.id)
-      .populate('patientId', 'firstName lastName age gender contactNumber')
+    const encounter = await Encounter.findOne({
+      _id: req.params.id,
+      organization: req.user.organization._id,
+    })
+      .populate({
+        path: 'patientId',
+        select: 'firstName lastName age gender contactNumber',
+        match: { organization: req.user.organization._id },
+      })
       .populate('providerId', 'username role');
 
-    if (!encounter) {
+    if (!encounter || !encounter.patientId) {
       return res.status(404).json({ success: false, message: 'Encounter not found' });
     }
 
@@ -37,30 +57,28 @@ router.get('/:id', protect, async (req, res) => {
   }
 });
 
-
-router.post('/', protect, async (req, res) => {
+// Create clinical encounter
+router.post('/', protect, checkRole(['Admin', 'Doctor']), async (req, res) => {
   try {
     const { patientId, symptoms, diagnosis, notes, vitals, date } = req.body;
-
-    if (req.user.role === 'Receptionist') {
-      return res.status(403).json({ 
-        success: false, 
-        message: 'Forbidden. Receptionists cannot log clinical notes. Doctor role required.' 
-      });
-    }
 
     if (!patientId || !symptoms || !diagnosis) {
       return res.status(400).json({ success: false, message: 'Required fields missing: symptoms and diagnosis' });
     }
 
-    const checkPatient = await Patient.findById(patientId);
+    const checkPatient = await Patient.findOne({
+      _id: patientId,
+      organization: req.user.organization._id,
+    });
+    
     if (!checkPatient) {
-      return res.status(404).json({ success: false, message: 'Patient chart not found' });
+      return res.status(404).json({ success: false, message: 'Patient chart not found in this organization.' });
     }
 
     const newEncounter = new Encounter({
       patientId,
       providerId: req.user._id,
+      organization: req.user.organization._id,
       symptoms,
       diagnosis,
       notes: notes || '',
@@ -74,7 +92,6 @@ router.post('/', protect, async (req, res) => {
     });
 
     const savedEncounter = await newEncounter.save();
-
 
     await AuditLog.create({
       operatorId: req.user._id,

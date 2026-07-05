@@ -36,6 +36,11 @@ const encounterSchema = new mongoose.Schema(
       pulse: { type: Number, default: '' },
       respiratoryRate: { type: Number, default: '' },
     },
+    organization: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Organization',
+      required: true,
+    },
   },
   {
     timestamps: true,

@@ -59,6 +59,7 @@ export const AuthProvider = ({ children }) => {
           _id: data._id,
           username: data.username,
           role: data.role,
+          organizationName: data.organizationName,
         });
         localStorage.setItem('user_token', data.token);
         return { success: true };
@@ -74,14 +75,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signup = async (username, password, role) => {
+  const signup = async (username, password, organizationName) => {
     setLoading(true);
     setApiError('');
     try {
       const response = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password, role }),
+        body: JSON.stringify({ username, password, organizationName }),
       });
       const data = await response.json();
 
@@ -91,6 +92,7 @@ export const AuthProvider = ({ children }) => {
           _id: data._id,
           username: data.username,
           role: data.role,
+          organizationName: data.organizationName,
         });
         localStorage.setItem('user_token', data.token);
         return { success: true };

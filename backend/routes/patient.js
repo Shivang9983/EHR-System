@@ -5,16 +5,18 @@ const router = express.Router();
 const Patient = require('../models/Patient');
 const Encounter = require('../models/Encounter');
 const AuditLog = require('../models/AuditLog');
-const { protect } = require('../middleware/auth');
+const { protect, checkRole } = require('../middleware/auth');
 
+// Get all patients
 router.get('/', protect, async (req, res) => {
   try {
     const { search } = req.query;
 
-    let query = {};
+    let query = { organization: req.user.organization._id };
 
     if (search?.trim()) {
       query = {
+        organization: req.user.organization._id,
         $or: [
           { firstName: { $regex: search, $options: 'i' } },
           { lastName: { $regex: search, $options: 'i' } },
@@ -32,7 +34,7 @@ router.get('/', protect, async (req, res) => {
       patients,
     });
   } catch (error) {
-    console.error(error);
+    console.error('Fetch patients error:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to fetch patients',
@@ -50,7 +52,10 @@ router.get('/:id', protect, async (req, res) => {
       });
     }
 
-    const patient = await Patient.findById(req.params.id);
+    const patient = await Patient.findOne({
+      _id: req.params.id,
+      organization: req.user.organization._id,
+    });
 
     if (!patient) {
       return res.status(404).json({
@@ -64,7 +69,7 @@ router.get('/:id', protect, async (req, res) => {
       patient,
     });
   } catch (error) {
-    console.error(error);
+    console.error('Fetch patient error:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to fetch patient',
@@ -73,7 +78,7 @@ router.get('/:id', protect, async (req, res) => {
 });
 
 // Create patient
-router.post('/', protect, async (req, res) => {
+router.post('/', protect, checkRole(['Admin', 'Doctor', 'Receptionist']), async (req, res) => {
   try {
     const {
       firstName,
@@ -100,6 +105,7 @@ router.post('/', protect, async (req, res) => {
 
     const existingPatient = await Patient.findOne({
       contactNumber,
+      organization: req.user.organization._id,
     });
 
     if (existingPatient) {
@@ -118,6 +124,7 @@ router.post('/', protect, async (req, res) => {
       email,
       medicalHistory,
       createdBy: req.user._id,
+      organization: req.user.organization._id,
     });
 
     await AuditLog.create({
@@ -130,7 +137,7 @@ router.post('/', protect, async (req, res) => {
       patient,
     });
   } catch (error) {
-    console.error(error);
+    console.error('Create patient error:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to create patient',
@@ -139,7 +146,7 @@ router.post('/', protect, async (req, res) => {
 });
 
 // Update patient
-router.put('/:id', protect, async (req, res) => {
+router.put('/:id', protect, checkRole(['Admin', 'Doctor', 'Receptionist']), async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
       return res.status(400).json({
@@ -148,7 +155,10 @@ router.put('/:id', protect, async (req, res) => {
       });
     }
 
-    const patient = await Patient.findById(req.params.id);
+    const patient = await Patient.findOne({
+      _id: req.params.id,
+      organization: req.user.organization._id,
+    });
 
     if (!patient) {
       return res.status(404).json({
@@ -158,6 +168,7 @@ router.put('/:id', protect, async (req, res) => {
     }
 
     Object.assign(patient, req.body);
+    patient.organization = req.user.organization._id; // Prevent changing organization
 
     const updatedPatient = await patient.save();
 
@@ -171,7 +182,7 @@ router.put('/:id', protect, async (req, res) => {
       patient: updatedPatient,
     });
   } catch (error) {
-    console.error(error);
+    console.error('Update patient error:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to update patient',
@@ -179,8 +190,8 @@ router.put('/:id', protect, async (req, res) => {
   }
 });
 
-
-router.delete('/:id', protect, async (req, res) => {
+// Delete patient
+router.delete('/:id', protect, checkRole(['Admin', 'Doctor']), async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
       return res.status(400).json({
@@ -189,7 +200,10 @@ router.delete('/:id', protect, async (req, res) => {
       });
     }
 
-    const patient = await Patient.findById(req.params.id);
+    const patient = await Patient.findOne({
+      _id: req.params.id,
+      organization: req.user.organization._id,
+    });
 
     if (!patient) {
       return res.status(404).json({
@@ -199,10 +213,16 @@ router.delete('/:id', protect, async (req, res) => {
     }
 
     // Delete all encounters associated with the patient
-    await Encounter.deleteMany({ patientId: req.params.id });
+    await Encounter.deleteMany({
+      patientId: req.params.id,
+      organization: req.user.organization._id,
+    });
 
     // Delete patient record
-    await Patient.findByIdAndDelete(req.params.id);
+    await Patient.findOneAndDelete({
+      _id: req.params.id,
+      organization: req.user.organization._id,
+    });
 
     await AuditLog.create({
       operatorId: req.user._id,
@@ -214,7 +234,7 @@ router.delete('/:id', protect, async (req, res) => {
       message: 'Patient and associated encounters deleted successfully',
     });
   } catch (error) {
-    console.error(error);
+    console.error('Delete patient error:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to delete patient',

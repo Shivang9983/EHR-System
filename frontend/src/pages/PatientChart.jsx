@@ -5,6 +5,7 @@ import { ArrowLeft, Plus, Download, Trash2, Calendar, AlertCircle } from 'lucide
 import EncounterForm from '../components/EncounterForm';
 import PatientDemographicCard from '../components/PatientDemographicCard';
 import EncounterTimeline from '../components/EncounterTimeline';
+import PatientFilesSection from '../components/PatientFilesSection';
 import { generatePatientReport } from '../utils/pdfGenerator';
 
 export default function PatientChart() {
@@ -148,11 +149,12 @@ export default function PatientChart() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-1">
+        <div className="lg:col-span-1 space-y-6">
           <PatientDemographicCard 
             patient={patient} 
             onUpdateSuccess={(updatedPat) => setPatient(updatedPat)} 
           />
+          <PatientFilesSection patientId={patientId} />
         </div>
 
         <div className="lg:col-span-2 space-y-6 bg-slate-50/50 p-6 rounded-xl border border-slate-200 shadow-2xs">
