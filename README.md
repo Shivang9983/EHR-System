@@ -210,7 +210,7 @@ Provides quick access to patient statistics and healthcare workflows.
 
 Allows healthcare staff to register and manage patient information.
 
-![Patient Registration](./screenshots/patient-form.png)
+![Patient Registration](./screenshots/patient-report.png)
 
 ---
 
