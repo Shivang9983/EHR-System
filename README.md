@@ -301,26 +301,6 @@ npm run dev
 
 ---
 
-# 🧠 Engineering Decisions
-
-### Why MongoDB?
-
-MongoDB provides a flexible document-based structure that works well for storing healthcare records.
-
-### Why JWT?
-
-JWT enables stateless authentication and protects secure API routes.
-
-### Why bcrypt?
-
-bcrypt ensures passwords are never stored in plain text.
-
-### Why React?
-
-React provides reusable UI components and improves frontend maintainability.
-
----
-
 # 🚀 Future Roadmap
 
 Planned improvements:
