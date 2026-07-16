@@ -68,10 +68,10 @@ export default function EncounterForm({ isOpen, onClose, patientId, onEncounterC
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-      <div className="w-full max-w-2xl overflow-hidden rounded-xl bg-white shadow-xl border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50">
-          <div className="flex items-center gap-2 text-indigo-650">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs">
+      <div className="w-full max-w-2xl overflow-hidden rounded-xl bg-white shadow-lg border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-100">
+          <div className="flex items-center gap-2 text-indigo-700">
             <ClipboardList className="w-4.5 h-4.5" />
             <h2 className="text-sm font-bold text-slate-800">Log Clinical Encounter</h2>
           </div>
@@ -86,13 +86,13 @@ export default function EncounterForm({ isOpen, onClose, patientId, onEncounterC
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4 max-h-[80vh] overflow-y-auto">
           {errorMsg && (
-            <div className="p-3 text-xs text-rose-600 border border-rose-100 rounded-lg bg-rose-50/70 font-medium">
+            <div className="p-3 text-xs text-rose-600 border border-slate-200 rounded-lg bg-rose-50 font-medium shadow-3xs">
               {errorMsg}
             </div>
           )}
 
-          <div className="p-4 rounded-lg bg-slate-50 border border-slate-200">
-            <div className="flex items-center gap-1.5 mb-3 text-[10px] font-bold text-indigo-600 tracking-wider uppercase">
+          <div className="p-4 rounded-lg bg-slate-100 border border-slate-200 shadow-3xs">
+            <div className="flex items-center gap-1.5 mb-3 text-[10px] font-bold text-indigo-650 tracking-wider uppercase">
               <Activity className="w-4.5 h-4.5 text-indigo-600" />
               <span>Vitals Chart</span>
             </div>
@@ -104,7 +104,7 @@ export default function EncounterForm({ isOpen, onClose, patientId, onEncounterC
                   value={bp}
                   onChange={(e) => setBp(e.target.value)}
                   placeholder="120/80"
-                  className="w-full px-2.5 py-1.5 rounded-lg bg-white border border-slate-300 text-slate-800 text-xs placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 transition-all"
+                  className="w-full"
                 />
               </div>
 
@@ -116,7 +116,7 @@ export default function EncounterForm({ isOpen, onClose, patientId, onEncounterC
                   value={temp}
                   onChange={(e) => setTemp(e.target.value)}
                   placeholder="98.6"
-                  className="w-full px-2.5 py-1.5 rounded-lg bg-white border border-slate-300 text-slate-800 text-xs placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 transition-all"
+                  className="w-full"
                 />
               </div>
 
@@ -127,7 +127,7 @@ export default function EncounterForm({ isOpen, onClose, patientId, onEncounterC
                   value={pulse}
                   onChange={(e) => setPulse(e.target.value)}
                   placeholder="72"
-                  className="w-full px-2.5 py-1.5 rounded-lg bg-white border border-slate-300 text-slate-800 text-xs placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 transition-all"
+                  className="w-full"
                 />
               </div>
 
@@ -138,7 +138,7 @@ export default function EncounterForm({ isOpen, onClose, patientId, onEncounterC
                   value={respRate}
                   onChange={(e) => setRespRate(e.target.value)}
                   placeholder="16"
-                  className="w-full px-2.5 py-1.5 rounded-lg bg-white border border-slate-300 text-slate-800 text-xs placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 transition-all"
+                  className="w-full"
                 />
               </div>
             </div>
@@ -151,7 +151,7 @@ export default function EncounterForm({ isOpen, onClose, patientId, onEncounterC
               onChange={(e) => setSymptoms(e.target.value)}
               rows="3"
               placeholder="Primary reasons for visit, acute symptoms..."
-              className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 text-xs resize-none transition-all"
+              className="w-full"
               required
             />
           </div>
@@ -163,7 +163,7 @@ export default function EncounterForm({ isOpen, onClose, patientId, onEncounterC
               onChange={(e) => setDiagnosis(e.target.value)}
               rows="3"
               placeholder="Clinical evaluation findings and diagnosis..."
-              className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 text-xs resize-none transition-all"
+              className="w-full"
               required
             />
           </div>
@@ -175,22 +175,22 @@ export default function EncounterForm({ isOpen, onClose, patientId, onEncounterC
               onChange={(e) => setNotes(e.target.value)}
               rows="3"
               placeholder="Prescriptions, advice, diagnostic plans, and follow-ups..."
-              className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 text-xs resize-none transition-all"
+              className="w-full"
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-lg text-xs font-semibold cursor-pointer transition-colors"
+              className="px-4 py-2 border border-slate-200 text-slate-650 hover:bg-slate-100 rounded-lg text-xs font-semibold cursor-pointer transition-colors shadow-3xs"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg text-xs cursor-pointer transition-colors disabled:opacity-50"
+              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg text-xs cursor-pointer transition-colors disabled:opacity-50 shadow-3xs"
             >
               {loading ? 'Saving...' : 'Save Encounter'}
             </button>

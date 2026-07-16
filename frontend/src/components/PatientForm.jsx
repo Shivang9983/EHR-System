@@ -63,10 +63,10 @@ export default function PatientForm({ isOpen, onClose, onPatientCreated }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-      <div className="w-full max-w-xl overflow-hidden rounded-xl bg-white shadow-xl border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50">
-          <div className="flex items-center gap-2 text-indigo-650">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs">
+      <div className="w-full max-w-xl overflow-hidden rounded-xl bg-white shadow-lg border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-100">
+          <div className="flex items-center gap-2 text-indigo-700">
             <UserPlus className="w-4.5 h-4.5" />
             <h2 className="text-sm font-bold text-slate-800">Register New Patient Chart</h2>
           </div>
@@ -81,7 +81,7 @@ export default function PatientForm({ isOpen, onClose, onPatientCreated }) {
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4 max-h-[80vh] overflow-y-auto">
           {errorMsg && (
-            <div className="p-3 text-xs text-rose-600 border border-rose-100 rounded-lg bg-rose-50/70 font-medium">
+            <div className="p-3 text-xs text-rose-600 border border-slate-200 rounded-lg bg-rose-50 font-medium shadow-3xs">
               {errorMsg}
             </div>
           )}
@@ -94,7 +94,7 @@ export default function PatientForm({ isOpen, onClose, onPatientCreated }) {
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 placeholder="e.g. John"
-                className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 text-xs transition-all"
+                className="w-full"
                 required
               />
             </div>
@@ -106,7 +106,7 @@ export default function PatientForm({ isOpen, onClose, onPatientCreated }) {
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 placeholder="e.g. Doe"
-                className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 text-xs transition-all"
+                className="w-full"
                 required
               />
             </div>
@@ -120,7 +120,7 @@ export default function PatientForm({ isOpen, onClose, onPatientCreated }) {
                 placeholder="e.g. 35"
                 min="1"
                 max="120"
-                className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 text-xs transition-all"
+                className="w-full"
                 required
               />
             </div>
@@ -130,7 +130,7 @@ export default function PatientForm({ isOpen, onClose, onPatientCreated }) {
               <select
                 value={gender}
                 onChange={(e) => setGender(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-855 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 text-xs transition-all"
+                className="w-full"
               >
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -145,7 +145,7 @@ export default function PatientForm({ isOpen, onClose, onPatientCreated }) {
                 value={contactNumber}
                 onChange={(e) => setContactNumber(e.target.value)}
                 placeholder="e.g. 555-0199"
-                className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 text-xs transition-all"
+                className="w-full"
                 required
               />
             </div>
@@ -157,7 +157,7 @@ export default function PatientForm({ isOpen, onClose, onPatientCreated }) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="e.g. john.doe@email.com"
-                className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 text-xs transition-all"
+                className="w-full"
               />
             </div>
           </div>
@@ -169,22 +169,22 @@ export default function PatientForm({ isOpen, onClose, onPatientCreated }) {
               onChange={(e) => setMedicalHistory(e.target.value)}
               rows="3"
               placeholder="Declared chronic illnesses, pre-existing conditions, drug allergies, etc..."
-              className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 text-xs transition-all resize-none"
+              className="w-full text-xs"
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-lg text-xs font-semibold cursor-pointer transition-colors"
+              className="px-4 py-2 border border-slate-200 text-slate-650 hover:bg-slate-100 rounded-lg text-xs font-semibold cursor-pointer transition-colors shadow-3xs"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg text-xs cursor-pointer transition-colors disabled:opacity-50"
+              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg text-xs cursor-pointer transition-colors disabled:opacity-50 shadow-3xs"
             >
               {loading ? 'Registering...' : 'Register Patient'}
             </button>

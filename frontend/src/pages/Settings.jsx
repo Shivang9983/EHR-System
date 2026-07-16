@@ -132,21 +132,21 @@ export default function Settings() {
         </div>
       )}
 
-      <div className="bg-white rounded-xl border border-slate-200 shadow-xs max-w-xl overflow-hidden p-6">
+      <div className="bg-white rounded-xl border border-slate-200 shadow-3xs max-w-xl overflow-hidden p-6">
         {activeTab === 'profile' && (
           <div className="space-y-6">
-            <h2 className="text-sm font-bold text-slate-850">Your Profile Overview</h2>
+            <h2 className="text-sm font-bold text-slate-800">Your Profile Overview</h2>
             <div className="grid grid-cols-2 gap-4 text-xs">
-              <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg">
-                <span className="text-slate-400 block mb-0.5">Staff Username</span>
-                <span className="font-bold text-slate-700">{user?.username}</span>
+              <div className="p-3 bg-slate-100 border border-slate-200 rounded-lg">
+                <span className="text-slate-450 block mb-0.5 font-medium">Staff Username</span>
+                <span className="font-bold text-slate-800">{user?.username}</span>
               </div>
-              <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg">
-                <span className="text-slate-400 block mb-0.5">Assigned Role</span>
-                <span className="font-bold text-slate-700">{user?.role}</span>
+              <div className="p-3 bg-slate-100 border border-slate-200 rounded-lg">
+                <span className="text-slate-450 block mb-0.5 font-medium">Assigned Role</span>
+                <span className="font-bold text-slate-800">{user?.role}</span>
               </div>
-              <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg col-span-2">
-                <span className="text-slate-400 block mb-0.5">Healthcare Organization</span>
+              <div className="p-3 bg-slate-100 border border-slate-200 rounded-lg col-span-2">
+                <span className="text-slate-450 block mb-0.5 font-medium">Healthcare Organization</span>
                 <span className="font-bold text-indigo-700">{user?.organizationName || user?.organization?.name || 'Default Health Clinic'}</span>
               </div>
             </div>
@@ -155,7 +155,7 @@ export default function Settings() {
 
         {activeTab === 'security' && (
           <form onSubmit={handlePasswordChange} className="space-y-4">
-            <h2 className="text-sm font-bold text-slate-850">Change Password</h2>
+            <h2 className="text-sm font-bold text-slate-800">Change Password</h2>
             <div>
               <label className="block mb-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-wide">Current Password</label>
               <input
@@ -163,7 +163,7 @@ export default function Settings() {
                 required
                 value={secData.oldPassword}
                 onChange={(e) => setSecData(prev => ({ ...prev, oldPassword: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-800 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600"
+                className="w-full"
               />
             </div>
             <div>
@@ -173,7 +173,7 @@ export default function Settings() {
                 required
                 value={secData.newPassword}
                 onChange={(e) => setSecData(prev => ({ ...prev, newPassword: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-800 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600"
+                className="w-full"
               />
             </div>
             <div>
@@ -183,12 +183,12 @@ export default function Settings() {
                 required
                 value={secData.confirmPassword}
                 onChange={(e) => setSecData(prev => ({ ...prev, confirmPassword: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-800 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600"
+                className="w-full"
               />
             </div>
             <button
               type="submit"
-              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg text-xs cursor-pointer transition-colors"
+              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg text-xs cursor-pointer transition-colors shadow-3xs"
             >
               Update Credentials
             </button>
@@ -198,8 +198,8 @@ export default function Settings() {
         {activeTab === 'staff' && (
           <form onSubmit={handleRegisterStaff} className="space-y-4">
             <div>
-              <h2 className="text-sm font-bold text-slate-850">Register Clinic Staff</h2>
-              <p className="text-[11px] text-slate-450 mt-0.5">Create clinical accounts for new doctors or receptionists</p>
+              <h2 className="text-sm font-bold text-slate-800">Register Clinic Staff</h2>
+              <p className="text-[11px] text-slate-455 mt-0.5">Create clinical accounts for new doctors or receptionists</p>
             </div>
             <div>
               <label className="block mb-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-wide">Staff Username *</label>
@@ -209,7 +209,7 @@ export default function Settings() {
                 placeholder="e.g. carter_md"
                 value={staffData.username}
                 onChange={(e) => setStaffData(prev => ({ ...prev, username: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-800 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600"
+                className="w-full"
               />
             </div>
             <div>
@@ -220,7 +220,7 @@ export default function Settings() {
                 placeholder="Enter password"
                 value={staffData.password}
                 onChange={(e) => setStaffData(prev => ({ ...prev, password: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-800 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600"
+                className="w-full"
               />
             </div>
             <div>
@@ -228,7 +228,7 @@ export default function Settings() {
               <select
                 value={staffData.role}
                 onChange={(e) => setStaffData(prev => ({ ...prev, role: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-800 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600"
+                className="w-full"
               >
                 <option value="Doctor">Doctor</option>
                 <option value="Receptionist">Receptionist</option>
@@ -237,7 +237,7 @@ export default function Settings() {
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg text-xs cursor-pointer transition-colors disabled:opacity-50"
+              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg text-xs cursor-pointer transition-colors disabled:opacity-50 shadow-3xs"
             >
               {loading ? 'Creating Account...' : 'Register Staff Account'}
             </button>

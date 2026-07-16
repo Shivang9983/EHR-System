@@ -137,34 +137,34 @@ export default function Reports() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-xs flex items-center justify-between">
+        <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-3xs flex items-center justify-between">
           <div>
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Registry Count</span>
             <h3 className="text-2xl font-bold text-slate-800 mt-1">{patients.length}</h3>
           </div>
-          <Activity className="w-8 h-8 text-indigo-500/80" />
+          <Activity className="w-8 h-8 text-indigo-650" />
         </div>
 
-        <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-xs flex items-center justify-between">
+        <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-3xs flex items-center justify-between">
           <div>
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Estimated Monthly Visits</span>
-            <h3 className="text-2xl font-bold text-slate-850 mt-1">{Math.round(patients.length * 2)}</h3>
+            <h3 className="text-2xl font-bold text-slate-800 mt-1">{Math.round(patients.length * 2)}</h3>
           </div>
-          <TrendingUp className="w-8 h-8 text-emerald-500/80" />
+          <TrendingUp className="w-8 h-8 text-emerald-600" />
         </div>
 
-        <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-xs flex items-center justify-between">
+        <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-3xs flex items-center justify-between">
           <div>
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Report Integrity</span>
-            <h3 className="text-2xl font-bold text-slate-850 mt-1">100%</h3>
+            <h3 className="text-2xl font-bold text-slate-800 mt-1">100%</h3>
           </div>
-          <FileText className="w-8 h-8 text-amber-500/80" />
+          <FileText className="w-8 h-8 text-amber-655" />
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Visit Trends */}
-        <div className="p-6 rounded-xl bg-white border border-slate-200 shadow-xs space-y-4">
+        <div className="p-6 rounded-xl bg-white border border-slate-200 shadow-3xs space-y-4">
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp className="w-4.5 h-4.5 text-indigo-600" />
             <h2 className="text-sm font-bold text-slate-800">Patient Registrations & Visits</h2>
@@ -174,22 +174,22 @@ export default function Reports() {
               <AreaChart data={visitTrendData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorVisits" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.1}/>
-                    <stop offset="95%" stopColor="#4f46e5" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.15}/>
+                    <stop offset="95%" stopColor="var(--primary)" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis dataKey="month" stroke="#94a3b8" fontSize={10} tickLine={false} />
-                <YAxis stroke="#94a3b8" fontSize={10} tickLine={false} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" />
+                <XAxis dataKey="month" stroke="var(--text-secondary)" fontSize={10} tickLine={false} />
+                <YAxis stroke="var(--text-secondary)" fontSize={10} tickLine={false} />
                 <Tooltip />
-                <Area type="monotone" dataKey="visits" name="Visits" stroke="#4f46e5" strokeWidth={2} fillOpacity={1} fill="url(#colorVisits)" />
+                <Area type="monotone" dataKey="visits" name="Visits" stroke="var(--primary)" strokeWidth={2} fillOpacity={1} fill="url(#colorVisits)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Gender Breakdown */}
-        <div className="p-6 rounded-xl bg-white border border-slate-200 shadow-xs space-y-4">
+        <div className="p-6 rounded-xl bg-white border border-slate-200 shadow-3xs space-y-4">
           <div className="flex items-center gap-2 mb-2">
             <PieIcon className="w-4.5 h-4.5 text-indigo-600" />
             <h2 className="text-sm font-bold text-slate-800">Gender Distribution</h2>
@@ -215,7 +215,7 @@ export default function Reports() {
                   <div key={d.name} className="flex items-center gap-2.5">
                     <span className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: COLORS[index % COLORS.length] }} />
                     <span className="font-medium text-slate-600">{d.name}:</span>
-                    <span className="font-bold text-slate-805">{d.value}</span>
+                    <span className="font-bold text-slate-800">{d.value}</span>
                   </div>
                 ))}
               </div>
@@ -224,19 +224,19 @@ export default function Reports() {
         </div>
 
         {/* Age Groups Distribution */}
-        <div className="p-6 rounded-xl bg-white border border-slate-200 shadow-xs space-y-4 lg:col-span-2">
+        <div className="p-6 rounded-xl bg-white border border-slate-200 shadow-3xs space-y-4 lg:col-span-2">
           <div className="flex items-center gap-2 mb-2">
-            <BarChart3 className="w-4.5 h-4.5 text-indigo-606" />
+            <BarChart3 className="w-4.5 h-4.5 text-indigo-600" />
             <h2 className="text-sm font-bold text-slate-800">Patient Age Groups Bracket</h2>
           </div>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={ageData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis dataKey="name" stroke="#94a3b8" fontSize={10} tickLine={false} />
-                <YAxis stroke="#94a3b8" fontSize={10} tickLine={false} allowDecimals={false} />
-                <Tooltip cursor={{ fill: '#f8fafc' }} />
-                <Bar dataKey="count" name="Patients count" fill="#4f46e5" radius={[4, 4, 0, 0]} barSize={40} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" />
+                <XAxis dataKey="name" stroke="var(--text-secondary)" fontSize={10} tickLine={false} />
+                <YAxis stroke="var(--text-secondary)" fontSize={10} tickLine={false} allowDecimals={false} />
+                <Tooltip cursor={{ fill: 'var(--card-secondary)' }} />
+                <Bar dataKey="count" name="Patients count" fill="var(--primary)" radius={[4, 4, 0, 0]} barSize={40} />
               </BarChart>
             </ResponsiveContainer>
           </div>
