@@ -43,10 +43,10 @@ export default function Login() {
 
   return (
     <div className="flex items-center justify-center min-h-[90vh] bg-slate-50 px-4">
-      <div className="w-full max-w-sm bg-white rounded-xl shadow-xs border border-slate-200 overflow-hidden p-6 sm:p-8 space-y-6">
+      <div className="w-full max-w-sm bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden p-6 sm:p-8 space-y-6">
         <div className="flex flex-col items-center text-center">
-          <div className="flex items-center justify-center w-11 h-11 rounded-lg bg-indigo-50 border border-indigo-100 text-indigo-650 mb-3 shadow-inner">
-            <HeartPulse className="w-6 h-6" />
+          <div className="flex items-center justify-center w-11 h-11 rounded-lg bg-indigo-50 border border-slate-200 text-indigo-700 mb-3 shadow-3xs">
+            <HeartPulse className="w-6 h-6 animate-pulse" />
           </div>
           <h1 className="text-base font-bold text-slate-900 tracking-tight">
             EHR Clinical Portal
@@ -57,9 +57,9 @@ export default function Login() {
         </div>
 
         {error && (
-          <div className="flex items-start gap-2.5 p-3 text-xs text-rose-600 border border-rose-100 rounded-lg bg-rose-50/70">
+          <div className="flex items-start gap-2.5 p-3 text-xs text-rose-600 border border-slate-200 rounded-lg bg-rose-50 font-medium shadow-3xs animate-in fade-in duration-200">
             <ShieldAlert className="w-4 h-4 shrink-0 text-rose-500" />
-            <span className="leading-normal font-medium">{error}</span>
+            <span className="leading-normal">{error}</span>
           </div>
         )}
 
@@ -69,7 +69,7 @@ export default function Login() {
               Username
             </label>
             <div className="relative">
-              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-450">
                 <User className="w-4 h-4" />
               </span>
               <input
@@ -78,7 +78,7 @@ export default function Login() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Enter staff username"
-                className="w-full pl-9 pr-4 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 text-xs transition-all"
+                className="w-full pl-9"
               />
             </div>
           </div>
@@ -88,7 +88,7 @@ export default function Login() {
               Password
             </label>
             <div className="relative">
-              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-450">
                 <Lock className="w-4 h-4" />
               </span>
               <input
@@ -97,7 +97,7 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter password"
-                className="w-full pl-9 pr-4 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 text-xs transition-all"
+                className="w-full pl-9"
               />
             </div>
           </div>
@@ -113,7 +113,7 @@ export default function Login() {
                 value={orgName}
                 onChange={(e) => setOrgName(e.target.value)}
                 placeholder="e.g. Green Valley Clinic"
-                className="w-full px-4 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 text-xs transition-all"
+                className="w-full"
               />
             </div>
           )}
@@ -121,20 +121,20 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex items-center justify-center gap-1.5 py-2.5 mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-xs transition-colors text-xs focus:outline-none disabled:opacity-50 cursor-pointer"
+            className="w-full flex items-center justify-center gap-1.5 py-2.5 mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-3xs transition-colors text-xs focus:outline-none disabled:opacity-50 cursor-pointer"
           >
             <span>{loading ? 'Authenticating...' : isLoginTab ? 'Sign In to Portal' : 'Register Organization'}</span>
             {!loading && <ArrowRight className="w-3.5 h-3.5" />}
           </button>
         </form>
 
-        <div className="text-center pt-2 border-t border-slate-100">
+        <div className="text-center pt-2 border-t border-slate-200">
           <button
             onClick={() => {
               setIsLoginTab(!isLoginTab);
               setError('');
             }}
-            className="text-xs text-indigo-650 hover:text-indigo-850 font-semibold hover:underline focus:outline-none cursor-pointer"
+            className="text-xs text-indigo-650 hover:text-indigo-700 font-semibold hover:underline focus:outline-none cursor-pointer"
           >
             {isLoginTab
               ? 'Register a new SaaS organization'

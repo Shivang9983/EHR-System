@@ -88,14 +88,14 @@ export default function PatientList() {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 rounded-xl bg-white border border-slate-200 text-xs shadow-xs">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 rounded-xl bg-white border border-slate-200 text-xs shadow-3xs">
         <div className="md:col-span-2 relative">
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by patient name or phone number..."
-            className="w-full pl-9 pr-4 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600 text-xs transition-all"
+            className="w-full pl-9"
           />
           <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
         </div>
@@ -105,7 +105,7 @@ export default function PatientList() {
           <select
             value={genderFilter}
             onChange={(e) => setGenderFilter(e.target.value)}
-            className="w-full px-2.5 py-1.5 rounded-lg bg-white border border-slate-300 text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600"
+            className="w-full"
           >
             <option value="All">All Genders</option>
             <option value="Male">Male</option>
@@ -119,7 +119,7 @@ export default function PatientList() {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="w-full px-2.5 py-1.5 rounded-lg bg-white border border-slate-300 text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-600"
+            className="w-full"
           >
             <option value="name">Sort by Name (A-Z)</option>
             <option value="age">Sort by Age (Desc)</option>
@@ -127,7 +127,7 @@ export default function PatientList() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+      <div className="bg-white rounded-xl border border-slate-200 shadow-3xs overflow-hidden">
         {loading ? (
           <div className="py-16 text-center text-slate-500 text-xs">Accessing demographics directory...</div>
         ) : paginatedPatients.length === 0 ? (
@@ -139,7 +139,7 @@ export default function PatientList() {
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-slate-200 text-[10px] font-bold text-slate-450 uppercase tracking-wider bg-slate-50/50">
+                  <tr className="border-b border-slate-200 text-[10px] font-bold text-slate-450 uppercase tracking-wider bg-slate-100">
                     <th className="py-3 px-6">Patient Name</th>
                     <th className="py-3 px-6">Age</th>
                     <th className="py-3 px-6">Gender</th>
@@ -148,10 +148,10 @@ export default function PatientList() {
                     <th className="py-3 px-6 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 text-xs">
+                <tbody className="divide-y divide-slate-200 text-xs">
                   {paginatedPatients.map((pat) => (
-                    <tr key={pat._id} className="hover:bg-slate-50/40 transition-colors">
-                      <td className="py-3.5 px-6 font-bold text-slate-805">
+                    <tr key={pat._id} className="hover:bg-slate-100/10 transition-colors">
+                      <td className="py-3.5 px-6 font-bold text-slate-800">
                         {pat.firstName} {pat.lastName}
                       </td>
                       <td className="py-3.5 px-6 text-slate-600">{pat.age} Years</td>
@@ -161,7 +161,7 @@ export default function PatientList() {
                       <td className="py-3.5 px-6 text-right">
                         <button
                           onClick={() => navigate(`/patients/${pat._id}`)}
-                          className="px-3 py-1.5 rounded-lg border border-slate-200 text-[10px] font-bold text-slate-600 hover:bg-slate-50 transition-colors cursor-pointer"
+                          className="px-3 py-1.5 rounded-lg border border-slate-200 text-[10px] font-bold text-slate-655 hover:bg-slate-100 transition-colors cursor-pointer"
                         >
                           Open Chart
                         </button>
@@ -173,7 +173,7 @@ export default function PatientList() {
             </div>
 
             {/* Pagination Controls */}
-            <div className="flex items-center justify-between px-6 py-4 border-t border-slate-200 bg-slate-50/50 text-xs">
+            <div className="flex items-center justify-between px-6 py-4 border-t border-slate-200 bg-slate-105 text-xs">
               <span className="text-[11px] text-slate-500">
                 Showing <strong className="font-semibold text-slate-700">{startIndex + 1}</strong> to{' '}
                 <strong className="font-semibold text-slate-700">
@@ -186,7 +186,7 @@ export default function PatientList() {
                 <button
                   onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
                   disabled={currentPage === 1}
-                  className="p-1.5 border border-slate-200 rounded-lg text-slate-500 hover:bg-slate-50 transition-colors disabled:opacity-40 disabled:hover:bg-transparent cursor-pointer"
+                  className="p-1.5 border border-slate-200 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors disabled:opacity-40 disabled:hover:bg-transparent cursor-pointer"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
@@ -196,7 +196,7 @@ export default function PatientList() {
                 <button
                   onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
                   disabled={currentPage === totalPages}
-                  className="p-1.5 border border-slate-200 rounded-lg text-slate-500 hover:bg-slate-50 transition-colors disabled:opacity-40 disabled:hover:bg-transparent cursor-pointer"
+                  className="p-1.5 border border-slate-200 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors disabled:opacity-40 disabled:hover:bg-transparent cursor-pointer"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
