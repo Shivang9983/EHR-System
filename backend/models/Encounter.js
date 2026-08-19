@@ -32,9 +32,19 @@ const encounterSchema = new mongoose.Schema(
     },
     vitals: {
       bloodPressure: { type: String, default: '' },
-      temperature: { type: Number, default: '' },
-      pulse: { type: Number, default: '' },
-      respiratoryRate: { type: Number, default: '' },
+      temperature: { type: Number, default: null },
+      pulse: { type: Number, default: null },
+      respiratoryRate: { type: Number, default: null },
+    },
+    soap: {
+      subjective: { type: String, default: '' },
+      objective: { type: String, default: '' },
+      assessment: { type: String, default: '' },
+      plan: { type: String, default: '' },
+    },
+    aiGenerated: {
+      type: Boolean,
+      default: false,
     },
     organization: {
       type: mongoose.Schema.Types.ObjectId,
