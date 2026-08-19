@@ -47,6 +47,7 @@ app.use('/api/encounters', require('./routes/encounter'));
 app.use('/api/appointments', require('./routes/appointment'));
 app.use('/api/files', require('./routes/file'));
 app.use('/api/analytics', require('./routes/analytics'));
+app.use('/api/ai', require('./routes/ai'));
 
 // Swagger UI Setup
 swaggerSetup(app);
