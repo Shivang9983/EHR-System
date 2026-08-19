@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('user_token') || '');
   const [loading, setLoading] = useState(true);
+  const [initialLoadingComplete, setInitialLoadingComplete] = useState(false);
   const [apiError, setApiError] = useState('');
 
   useEffect(() => {
@@ -143,6 +144,8 @@ export const AuthProvider = ({ children }) => {
         user,
         token,
         loading,
+        initialLoadingComplete,
+        setInitialLoadingComplete,
         error: apiError,
         setError: setApiError,
         login,

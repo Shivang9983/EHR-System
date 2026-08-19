@@ -3,19 +3,20 @@ import { useAuth } from '../context/AuthContext';
 import { User, Shield, Users, ShieldAlert, CheckCircle2, Eye, EyeOff } from 'lucide-react';
 
 export default function Settings() {
-  const { user, token } = useAuth();
+  const { user, token, authFetch } = useAuth();
   const [activeTab, setActiveTab] = useState('profile');
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
   
   // Security Tab state
   const [secData, setSecData] = useState({ oldPassword: '', newPassword: '', confirmPassword: '' });
+  const [secLoading, setSecLoading] = useState(false);
   
   // User Management Tab state
   const [staffData, setStaffData] = useState({ username: '', password: '', role: 'Doctor' });
   const [loading, setLoading] = useState(false);
 
-  const handlePasswordChange = (e) => {
+  const handlePasswordChange = async (e) => {
     e.preventDefault();
     setErrorMsg('');
     setSuccessMsg('');
@@ -27,9 +28,29 @@ export default function Settings() {
       setErrorMsg('New passwords do not match.');
       return;
     }
-    // Simulate API update
-    setSuccessMsg('Security credentials updated successfully.');
-    setSecData({ oldPassword: '', newPassword: '', confirmPassword: '' });
+    
+    setSecLoading(true);
+    try {
+      const response = await authFetch('/api/auth/change-password', {
+        method: 'PUT',
+        body: JSON.stringify({
+          oldPassword: secData.oldPassword,
+          newPassword: secData.newPassword,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setSuccessMsg(data.message || 'Security credentials updated successfully.');
+        setSecData({ oldPassword: '', newPassword: '', confirmPassword: '' });
+      } else {
+        setErrorMsg(data.message || 'Failed to update password.');
+      }
+    } catch (err) {
+      setErrorMsg('Unable to connect to authentication server.');
+    } finally {
+      setSecLoading(false);
+    }
   };
 
   const handleRegisterStaff = async (e) => {
@@ -188,9 +209,10 @@ export default function Settings() {
             </div>
             <button
               type="submit"
-              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg text-xs cursor-pointer transition-colors shadow-3xs"
+              disabled={secLoading}
+              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg text-xs cursor-pointer transition-colors disabled:opacity-50 shadow-3xs"
             >
-              Update Credentials
+              {secLoading ? 'Updating Credentials...' : 'Update Credentials'}
             </button>
           </form>
         )}
