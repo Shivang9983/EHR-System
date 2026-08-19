@@ -60,7 +60,7 @@ router.get('/:id', protect, checkRole(['Admin', 'Doctor']), async (req, res) => 
 // Create clinical encounter
 router.post('/', protect, checkRole(['Admin', 'Doctor']), async (req, res) => {
   try {
-    const { patientId, symptoms, diagnosis, notes, vitals, date } = req.body;
+    const { patientId, symptoms, diagnosis, notes, vitals, soap, aiGenerated, date } = req.body;
 
     if (!patientId || !symptoms || !diagnosis) {
       return res.status(400).json({ success: false, message: 'Required fields missing: symptoms and diagnosis' });
@@ -83,11 +83,18 @@ router.post('/', protect, checkRole(['Admin', 'Doctor']), async (req, res) => {
       diagnosis,
       notes: notes || '',
       vitals: {
-        bloodPressure: vitals?.bloodPressure || '',
-        temperature: vitals?.temperature || '',
-        pulse: vitals?.pulse || '',
-        respiratoryRate: vitals?.respiratoryRate || '',
+        bloodPressure: vitals?.bloodPressure ? String(vitals.bloodPressure).trim() : '',
+        temperature: vitals?.temperature !== undefined && vitals?.temperature !== null && vitals?.temperature !== '' && !isNaN(Number(vitals.temperature)) ? Number(vitals.temperature) : null,
+        pulse: vitals?.pulse !== undefined && vitals?.pulse !== null && vitals?.pulse !== '' && !isNaN(Number(vitals.pulse)) ? Number(vitals.pulse) : null,
+        respiratoryRate: vitals?.respiratoryRate !== undefined && vitals?.respiratoryRate !== null && vitals?.respiratoryRate !== '' && !isNaN(Number(vitals.respiratoryRate)) ? Number(vitals.respiratoryRate) : null,
       },
+      soap: {
+        subjective: soap?.subjective || '',
+        objective: soap?.objective || '',
+        assessment: soap?.assessment || '',
+        plan: soap?.plan || '',
+      },
+      aiGenerated: Boolean(aiGenerated),
       date: date || Date.now(),
     });
 

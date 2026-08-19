@@ -154,4 +154,38 @@ router.get('/me', protect, async (req, res) => {
   }
 });
 
+// Change User Password
+router.put('/change-password', protect, validate(['oldPassword', 'newPassword']), async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+
+    if (newPassword.length < 8) {
+      return res.status(400).json({ success: false, message: 'New password must be at least 8 characters long.' });
+    }
+
+    const user = await User.findById(req.user._id).select('+password');
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found.' });
+    }
+
+    const isMatch = await user.matchPassword(oldPassword);
+    if (!isMatch) {
+      return res.status(400).json({ success: false, message: 'Incorrect current password.' });
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    await AuditLog.create({
+      operatorId: user._id,
+      actionPerformed: 'CHANGE_PASSWORD',
+    });
+
+    res.json({ success: true, message: 'Security credentials updated successfully.' });
+  } catch (err) {
+    console.error('Password change error:', err);
+    res.status(500).json({ success: false, message: 'Failed to update password.' });
+  }
+});
+
 module.exports = router;

@@ -15,12 +15,13 @@ router.get('/', protect, async (req, res) => {
     let query = { organization: req.user.organization._id };
 
     if (search?.trim()) {
+      const sanitizedSearch = search.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       query = {
         organization: req.user.organization._id,
         $or: [
-          { firstName: { $regex: search, $options: 'i' } },
-          { lastName: { $regex: search, $options: 'i' } },
-          { contactNumber: { $regex: search, $options: 'i' } },
+          { firstName: { $regex: sanitizedSearch, $options: 'i' } },
+          { lastName: { $regex: sanitizedSearch, $options: 'i' } },
+          { contactNumber: { $regex: sanitizedSearch, $options: 'i' } },
         ],
       };
     }
