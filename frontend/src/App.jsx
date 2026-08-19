@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import DashboardLayout from './components/DashboardLayout';
 import LoadingScreen from './components/LoadingScreen';
 import Login from './pages/Login';
+import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
 import PatientList from './pages/PatientList';
 import PatientChart from './pages/PatientChart';
@@ -12,14 +13,13 @@ import Reports from './pages/Reports';
 import Settings from './pages/Settings';
 
 function ProtectedRoute({ children }) {
-  const { user, loading } = useAuth();
-  const [showLoading, setShowLoading] = useState(true);
+  const { user, loading, initialLoadingComplete, setInitialLoadingComplete } = useAuth();
 
-  if (showLoading) {
+  if (!initialLoadingComplete) {
     return (
       <LoadingScreen 
         isFinished={!loading} 
-        onComplete={() => setShowLoading(false)} 
+        onComplete={() => setInitialLoadingComplete(true)} 
       />
     );
   }
@@ -35,6 +35,10 @@ export default function App() {
   return (
     <Router>
       <Routes>
+        {/* Public Landing Page */}
+        <Route path="/" element={<Landing />} />
+
+        {/* Public Auth Login Page */}
         <Route path="/login" element={<Login />} />
         
         {/* Protected Dashboard Routes wrapped in DashboardLayout */}
