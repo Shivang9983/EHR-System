@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { User, Shield, Users, ShieldAlert, CheckCircle2, Eye, EyeOff } from 'lucide-react';
+import { User, Shield, Users, ShieldAlert, CheckCircle2, Loader2 } from 'lucide-react';
 
 export default function Settings() {
   const { user, token, authFetch } = useAuth();
@@ -98,17 +98,18 @@ export default function Settings() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 font-['Plus_Jakarta_Sans',sans-serif]">
       <div>
-        <h1 className="text-xl font-bold text-slate-800">Account & Portal Settings</h1>
-        <p className="text-xs text-slate-500">Configure clinic profile, security policies, and manage clinical staff</p>
+        <h1 className="text-lg font-bold text-[#1C1613] tracking-tight">Portal & Account Settings</h1>
+        <p className="text-xs text-[#8C7A6E]">Configure staff profile, security credentials, and role administration</p>
       </div>
 
-      <div className="flex border-b border-slate-200">
+      {/* Tabs */}
+      <div className="flex border-b border-[#E8E2D8] gap-1">
         <button
           onClick={() => { setActiveTab('profile'); setErrorMsg(''); setSuccessMsg(''); }}
-          className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold border-b-2 transition-all cursor-pointer ${
-            activeTab === 'profile' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-slate-500 hover:text-slate-800'
+          className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold border-b-2 transition-all cursor-pointer ${
+            activeTab === 'profile' ? 'border-[#1C1613] text-[#1C1613]' : 'border-transparent text-[#8C7A6E] hover:text-[#1C1613]'
           }`}
         >
           <User className="w-4 h-4" />
@@ -116,18 +117,18 @@ export default function Settings() {
         </button>
         <button
           onClick={() => { setActiveTab('security'); setErrorMsg(''); setSuccessMsg(''); }}
-          className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold border-b-2 transition-all cursor-pointer ${
-            activeTab === 'security' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-slate-500 hover:text-slate-800'
+          className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold border-b-2 transition-all cursor-pointer ${
+            activeTab === 'security' ? 'border-[#1C1613] text-[#1C1613]' : 'border-transparent text-[#8C7A6E] hover:text-[#1C1613]'
           }`}
         >
           <Shield className="w-4 h-4" />
-          <span>Security</span>
+          <span>Security & Password</span>
         </button>
         {user?.role === 'Admin' && (
           <button
             onClick={() => { setActiveTab('staff'); setErrorMsg(''); setSuccessMsg(''); }}
-            className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold border-b-2 transition-all cursor-pointer ${
-              activeTab === 'staff' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-slate-500 hover:text-slate-800'
+            className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold border-b-2 transition-all cursor-pointer ${
+              activeTab === 'staff' ? 'border-[#1C1613] text-[#1C1613]' : 'border-transparent text-[#8C7A6E] hover:text-[#1C1613]'
             }`}
           >
             <Users className="w-4 h-4" />
@@ -137,38 +138,40 @@ export default function Settings() {
       </div>
 
       {(errorMsg || successMsg) && (
-        <div className="max-w-md">
+        <div className="max-w-xl font-['Inter',sans-serif]">
           {errorMsg && (
-            <div className="flex items-start gap-2 p-3 text-xs text-rose-600 border border-rose-100 rounded-lg bg-rose-50">
-              <ShieldAlert className="w-4 h-4 shrink-0 text-rose-505" />
+            <div className="flex items-start gap-2.5 p-3.5 text-xs text-[#991B1B] border border-[#FEE2E2] rounded-xl bg-[#FDF2F2] font-medium shadow-2xs">
+              <ShieldAlert className="w-4 h-4 shrink-0 text-[#991B1B] mt-0.5" />
               <span>{errorMsg}</span>
             </div>
           )}
           {successMsg && (
-            <div className="flex items-start gap-2 p-3 text-xs text-emerald-600 border border-emerald-100 rounded-lg bg-emerald-50">
-              <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-505" />
+            <div className="flex items-start gap-2.5 p-3.5 text-xs text-[#2D5A43] border border-[#D5E5D9] rounded-xl bg-[#EAF2ED] font-medium shadow-2xs">
+              <CheckCircle2 className="w-4 h-4 shrink-0 text-[#2D5A43] mt-0.5" />
               <span>{successMsg}</span>
             </div>
           )}
         </div>
       )}
 
-      <div className="bg-white rounded-xl border border-slate-200 shadow-3xs max-w-xl overflow-hidden p-6">
+      {/* Main Settings Card */}
+      <div className="bg-white rounded-2xl border border-[#E8E2D8] shadow-2xs max-w-xl overflow-hidden p-6 font-['Inter',sans-serif]">
+        
         {activeTab === 'profile' && (
           <div className="space-y-6">
-            <h2 className="text-sm font-bold text-slate-800">Your Profile Overview</h2>
+            <h2 className="text-sm font-bold text-[#1C1613] font-['Plus_Jakarta_Sans',sans-serif]">Your Profile Overview</h2>
             <div className="grid grid-cols-2 gap-4 text-xs">
-              <div className="p-3 bg-slate-100 border border-slate-200 rounded-lg">
-                <span className="text-slate-450 block mb-0.5 font-medium">Staff Username</span>
-                <span className="font-bold text-slate-800">{user?.username}</span>
+              <div className="p-3.5 bg-[#FAF7F2] border border-[#E8E2D8] rounded-xl">
+                <span className="text-[#8C7A6E] block mb-1 text-[10px] font-bold uppercase tracking-wider">Staff Username</span>
+                <span className="font-bold text-[#1C1613] font-mono">{user?.username}</span>
               </div>
-              <div className="p-3 bg-slate-100 border border-slate-200 rounded-lg">
-                <span className="text-slate-450 block mb-0.5 font-medium">Assigned Role</span>
-                <span className="font-bold text-slate-800">{user?.role}</span>
+              <div className="p-3.5 bg-[#FAF7F2] border border-[#E8E2D8] rounded-xl">
+                <span className="text-[#8C7A6E] block mb-1 text-[10px] font-bold uppercase tracking-wider">Assigned Role</span>
+                <span className="font-bold text-[#2D5A43] uppercase text-[11px]">{user?.role}</span>
               </div>
-              <div className="p-3 bg-slate-100 border border-slate-200 rounded-lg col-span-2">
-                <span className="text-slate-450 block mb-0.5 font-medium">Healthcare Organization</span>
-                <span className="font-bold text-indigo-700">{user?.organizationName || user?.organization?.name || 'Default Health Clinic'}</span>
+              <div className="p-3.5 bg-[#FAF7F2] border border-[#E8E2D8] rounded-xl col-span-2">
+                <span className="text-[#8C7A6E] block mb-1 text-[10px] font-bold uppercase tracking-wider">Healthcare Organization</span>
+                <span className="font-bold text-[#4A372E]">{user?.organizationName || user?.organization?.name || 'Default Health Clinic'}</span>
               </div>
             </div>
           </div>
@@ -176,9 +179,9 @@ export default function Settings() {
 
         {activeTab === 'security' && (
           <form onSubmit={handlePasswordChange} className="space-y-4">
-            <h2 className="text-sm font-bold text-slate-800">Change Password</h2>
+            <h2 className="text-sm font-bold text-[#1C1613] font-['Plus_Jakarta_Sans',sans-serif]">Change Password</h2>
             <div>
-              <label className="block mb-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-wide">Current Password</label>
+              <label className="block mb-1.5 text-[10px] font-bold text-[#8C7A6E] uppercase tracking-wider font-['Plus_Jakarta_Sans',sans-serif]">Current Password</label>
               <input
                 type="password"
                 required
@@ -188,7 +191,7 @@ export default function Settings() {
               />
             </div>
             <div>
-              <label className="block mb-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-wide">New Password (min 8 chars)</label>
+              <label className="block mb-1.5 text-[10px] font-bold text-[#8C7A6E] uppercase tracking-wider font-['Plus_Jakarta_Sans',sans-serif]">New Password (min 8 chars)</label>
               <input
                 type="password"
                 required
@@ -198,7 +201,7 @@ export default function Settings() {
               />
             </div>
             <div>
-              <label className="block mb-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-wide">Confirm New Password</label>
+              <label className="block mb-1.5 text-[10px] font-bold text-[#8C7A6E] uppercase tracking-wider font-['Plus_Jakarta_Sans',sans-serif]">Confirm New Password</label>
               <input
                 type="password"
                 required
@@ -210,9 +213,16 @@ export default function Settings() {
             <button
               type="submit"
               disabled={secLoading}
-              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg text-xs cursor-pointer transition-colors disabled:opacity-50 shadow-3xs"
+              className="px-4 py-2.5 bg-[#1C1613] hover:bg-[#4A372E] text-white font-bold rounded-xl text-xs cursor-pointer transition-all disabled:opacity-50 shadow-3xs flex items-center gap-2 font-['Plus_Jakarta_Sans',sans-serif]"
             >
-              {secLoading ? 'Updating Credentials...' : 'Update Credentials'}
+              {secLoading ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  <span>Updating Credentials...</span>
+                </>
+              ) : (
+                <span>Update Credentials</span>
+              )}
             </button>
           </form>
         )}
@@ -220,33 +230,33 @@ export default function Settings() {
         {activeTab === 'staff' && (
           <form onSubmit={handleRegisterStaff} className="space-y-4">
             <div>
-              <h2 className="text-sm font-bold text-slate-800">Register Clinic Staff</h2>
-              <p className="text-[11px] text-slate-455 mt-0.5">Create clinical accounts for new doctors or receptionists</p>
+              <h2 className="text-sm font-bold text-[#1C1613] font-['Plus_Jakarta_Sans',sans-serif]">Register Clinic Staff</h2>
+              <p className="text-xs text-[#8C7A6E] mt-0.5">Provision clinical credentials for incoming Doctors or Receptionists</p>
             </div>
             <div>
-              <label className="block mb-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-wide">Staff Username *</label>
+              <label className="block mb-1.5 text-[10px] font-bold text-[#8C7A6E] uppercase tracking-wider font-['Plus_Jakarta_Sans',sans-serif]">Staff Username *</label>
               <input
                 type="text"
                 required
-                placeholder="e.g. carter_md"
+                placeholder="e.g. dr_miller"
                 value={staffData.username}
                 onChange={(e) => setStaffData(prev => ({ ...prev, username: e.target.value }))}
                 className="w-full"
               />
             </div>
             <div>
-              <label className="block mb-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-wide">Temporary Password (min 8 chars) *</label>
+              <label className="block mb-1.5 text-[10px] font-bold text-[#8C7A6E] uppercase tracking-wider font-['Plus_Jakarta_Sans',sans-serif]">Temporary Password (min 8 chars) *</label>
               <input
                 type="password"
                 required
-                placeholder="Enter password"
+                placeholder="Enter temporary password"
                 value={staffData.password}
                 onChange={(e) => setStaffData(prev => ({ ...prev, password: e.target.value }))}
                 className="w-full"
               />
             </div>
             <div>
-              <label className="block mb-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-wide">Clinical Role *</label>
+              <label className="block mb-1.5 text-[10px] font-bold text-[#8C7A6E] uppercase tracking-wider font-['Plus_Jakarta_Sans',sans-serif]">Clinical Role *</label>
               <select
                 value={staffData.role}
                 onChange={(e) => setStaffData(prev => ({ ...prev, role: e.target.value }))}
@@ -259,12 +269,20 @@ export default function Settings() {
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg text-xs cursor-pointer transition-colors disabled:opacity-50 shadow-3xs"
+              className="px-4 py-2.5 bg-[#1C1613] hover:bg-[#4A372E] text-white font-bold rounded-xl text-xs cursor-pointer transition-all disabled:opacity-50 shadow-3xs flex items-center gap-2 font-['Plus_Jakarta_Sans',sans-serif]"
             >
-              {loading ? 'Creating Account...' : 'Register Staff Account'}
+              {loading ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  <span>Registering Staff...</span>
+                </>
+              ) : (
+                <span>Register Staff Account</span>
+              )}
             </button>
           </form>
         )}
+
       </div>
     </div>
   );

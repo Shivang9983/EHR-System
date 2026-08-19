@@ -178,23 +178,23 @@ export default function AiAmbientScribe({ patientId, onApplySoap }) {
   };
 
   return (
-    <div className="bg-gradient-to-br from-indigo-900/5 via-indigo-600/5 to-purple-600/5 border border-indigo-200 rounded-xl p-5 space-y-4">
+    <div className="bg-[#FAF7F2] border border-[#E8E2D8] rounded-2xl p-5 space-y-4 font-['Plus_Jakarta_Sans',sans-serif]">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-indigo-100 pb-3">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center shadow-xs">
-            <Sparkles className="w-4.5 h-4.5" />
+      <div className="flex items-center justify-between border-b border-[#E8E2D8] pb-3">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-xl bg-[#1C1613] text-[#FAF7F2] flex items-center justify-center shadow-xs">
+            <Sparkles className="w-4.5 h-4.5 text-[#2D5A43]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wide">
+              <h3 className="text-xs font-bold text-[#1C1613] uppercase tracking-wide">
                 AI Ambient Clinical Scribe
               </h3>
-              <span className="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700 border border-indigo-200">
+              <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded-full bg-[#EAF2ED] text-[#2D5A43] border border-[#D5E5D9]">
                 Gemini 2.5 Flash
               </span>
             </div>
-            <p className="text-[10px] text-slate-500">
+            <p className="text-[10px] text-[#8C7A6E]">
               Dictate or paste doctor-patient conversation to automatically format a structured SOAP note and extract vitals
             </p>
           </div>
@@ -204,33 +204,33 @@ export default function AiAmbientScribe({ patientId, onApplySoap }) {
         <button
           type="button"
           onClick={toggleRecording}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-3xs cursor-pointer ${
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-3xs cursor-pointer ${
             isRecording
-              ? 'bg-rose-600 text-white animate-pulse'
-              : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-indigo-600'
+              ? 'bg-[#991B1B] text-white animate-pulse'
+              : 'bg-white border border-[#E8E2D8] text-[#1C1613] hover:bg-[#FAF7F2]'
           }`}
           title={isRecording ? 'Stop Recording' : 'Start Voice Dictation'}
         >
-          {isRecording ? <MicOff className="w-3.5 h-3.5" /> : <Mic className="w-3.5 h-3.5 text-indigo-600" />}
+          {isRecording ? <MicOff className="w-3.5 h-3.5" /> : <Mic className="w-3.5 h-3.5 text-[#4A372E]" />}
           <span>{isRecording ? 'Listening...' : 'Voice Dictate'}</span>
         </button>
       </div>
 
       {/* Dictation Input Area */}
-      <div className="space-y-2">
+      <div className="space-y-2 font-['Inter',sans-serif]">
         <div className="relative">
           <textarea
             value={transcript}
             onChange={(e) => setTranscript(e.target.value)}
             rows="3"
             placeholder="Speak into your microphone or paste physician notes / dialogue (e.g. 'Patient 45yo male presents with severe headache for 2 days, BP is 140/90, temp 99.1, pulse 78...')"
-            className="w-full text-xs font-mono p-3 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            className="w-full text-xs font-mono p-3 bg-white border border-[#E8E2D8] rounded-xl focus:ring-2 focus:ring-[#1C1613]/10 focus:outline-none"
           />
           {transcript && (
             <button
               type="button"
               onClick={() => setTranscript('')}
-              className="absolute top-2 right-2 text-slate-400 hover:text-slate-600 p-1 text-[10px] bg-slate-50 rounded border border-slate-200"
+              className="absolute top-2.5 right-2.5 text-[#8C7A6E] hover:text-[#1C1613] p-1 text-[10px] bg-[#FAF7F2] rounded-md border border-[#E8E2D8] font-sans"
               title="Clear text"
             >
               Clear
@@ -240,23 +240,23 @@ export default function AiAmbientScribe({ patientId, onApplySoap }) {
 
         {/* Audio File Upload & Clinical Templates */}
         <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-[10px]">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-400 uppercase tracking-wider">Quick Demos:</span>
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="font-bold text-[#8C7A6E] uppercase tracking-wider font-['Plus_Jakarta_Sans',sans-serif]">Templates:</span>
             {SAMPLE_TEMPLATES.map((tmpl, idx) => (
               <button
                 key={idx}
                 type="button"
                 onClick={() => setTranscript(tmpl.text)}
-                className="px-2 py-0.5 bg-white border border-slate-200 text-slate-600 hover:text-indigo-700 hover:border-indigo-300 rounded font-medium transition-colors cursor-pointer"
+                className="px-2.5 py-0.5 bg-white border border-[#E8E2D8] text-[#4A372E] hover:text-[#1C1613] hover:border-[#1C1613] rounded-lg font-medium transition-colors cursor-pointer shadow-3xs"
               >
                 {tmpl.title}
               </button>
             ))}
           </div>
 
-          <div className="flex items-center gap-1.5 text-slate-500">
-            <label className="flex items-center gap-1 cursor-pointer hover:text-indigo-600">
-              <Upload className="w-3 h-3" />
+          <div className="flex items-center gap-1.5 text-[#8C7A6E]">
+            <label className="flex items-center gap-1 cursor-pointer hover:text-[#1C1613] bg-white border border-[#E8E2D8] px-2.5 py-0.5 rounded-lg shadow-3xs">
+              <Upload className="w-3 h-3 text-[#4A372E]" />
               <span>{audioFile ? audioFile.name.slice(0, 16) + '...' : 'Upload Audio Note'}</span>
               <input
                 type="file"
@@ -273,18 +273,18 @@ export default function AiAmbientScribe({ patientId, onApplySoap }) {
       <div className="flex items-center justify-between pt-1">
         <div className="text-[10px]">
           {errorMsg && (
-            <span className="text-rose-600 font-bold flex items-center gap-1">
+            <span className="text-[#991B1B] font-bold flex items-center gap-1">
               <AlertCircle className="w-3 h-3 shrink-0" /> {errorMsg}
             </span>
           )}
-          {successMsg && <span className="text-emerald-600 font-bold">{successMsg}</span>}
+          {successMsg && <span className="text-[#2D5A43] font-bold">{successMsg}</span>}
         </div>
 
         <button
           type="button"
           disabled={loading}
           onClick={handleGenerateSoap}
-          className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-bold rounded-lg text-xs cursor-pointer shadow-xs transition-all"
+          className="flex items-center gap-2 px-4 py-2 bg-[#1C1613] hover:bg-[#4A372E] disabled:opacity-50 text-white font-bold rounded-xl text-xs cursor-pointer shadow-xs transition-all font-['Plus_Jakarta_Sans',sans-serif]"
         >
           {loading ? (
             <>
@@ -302,11 +302,11 @@ export default function AiAmbientScribe({ patientId, onApplySoap }) {
 
       {/* Generated Result Review & Approval Card */}
       {generatedResult && (
-        <div className="p-4 bg-white rounded-xl border border-indigo-200 shadow-sm space-y-4 animate-in fade-in zoom-in-95 duration-150">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+        <div className="p-4 bg-white rounded-2xl border border-[#E8E2D8] shadow-sm space-y-4 animate-in fade-in zoom-in-95 duration-150">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E8E2D8] pb-3">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
-              <span className="text-xs font-bold text-slate-800">
+              <span className="w-2 h-2 rounded-full bg-[#2D5A43] animate-ping" />
+              <span className="text-xs font-bold text-[#1C1613]">
                 AI Generated Clinical Assessment (Ready for Review)
               </span>
             </div>
@@ -315,16 +315,16 @@ export default function AiAmbientScribe({ patientId, onApplySoap }) {
               <button
                 type="button"
                 onClick={handleCopyNote}
-                className="flex items-center gap-1 px-2.5 py-1 text-[10px] font-semibold text-slate-600 hover:text-slate-800 bg-slate-50 border border-slate-200 rounded-md cursor-pointer"
+                className="flex items-center gap-1 px-2.5 py-1 text-[10px] font-bold text-[#4A372E] hover:text-[#1C1613] bg-[#FAF7F2] border border-[#E8E2D8] rounded-lg cursor-pointer"
               >
-                {copied ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
+                {copied ? <Check className="w-3 h-3 text-[#2D5A43]" /> : <Copy className="w-3 h-3" />}
                 <span>{copied ? 'Copied' : 'Copy SOAP'}</span>
               </button>
 
               <button
                 type="button"
                 onClick={handleApplyToEncounter}
-                className="flex items-center gap-1 px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg cursor-pointer shadow-3xs transition-colors"
+                className="flex items-center gap-1 px-3 py-1 bg-[#1C1613] hover:bg-[#4A372E] text-white text-xs font-bold rounded-lg cursor-pointer shadow-3xs transition-colors"
               >
                 <Check className="w-3.5 h-3.5" />
                 <span>Apply to Encounter Form</span>
@@ -334,28 +334,28 @@ export default function AiAmbientScribe({ patientId, onApplySoap }) {
 
           {/* Vitals Extracted Strip */}
           {generatedResult.vitals && Object.values(generatedResult.vitals).some(v => v !== '' && v !== null) && (
-            <div className="bg-indigo-50/50 p-2.5 rounded-lg border border-indigo-100 flex flex-wrap items-center gap-4 text-xs font-semibold text-indigo-900">
-              <span className="flex items-center gap-1 text-[10px] font-bold uppercase text-indigo-600">
+            <div className="bg-[#FAF7F2] p-3 rounded-xl border border-[#E8E2D8] flex flex-wrap items-center gap-4 text-xs font-semibold text-[#1C1613] font-mono">
+              <span className="flex items-center gap-1 text-[10px] font-bold uppercase text-[#4A372E] font-sans">
                 <Activity className="w-3.5 h-3.5" /> Extracted Vitals:
               </span>
               {generatedResult.vitals.bloodPressure && (
-                <span>BP: <strong className="font-mono">{generatedResult.vitals.bloodPressure}</strong></span>
+                <span>BP: <strong>{generatedResult.vitals.bloodPressure}</strong></span>
               )}
               {generatedResult.vitals.temperature && (
-                <span>Temp: <strong className="font-mono">{generatedResult.vitals.temperature}°F</strong></span>
+                <span>Temp: <strong>{generatedResult.vitals.temperature}°F</strong></span>
               )}
               {generatedResult.vitals.pulse && (
-                <span>Pulse: <strong className="font-mono">{generatedResult.vitals.pulse} bpm</strong></span>
+                <span>Pulse: <strong>{generatedResult.vitals.pulse} bpm</strong></span>
               )}
               {generatedResult.vitals.respiratoryRate && (
-                <span>Resp: <strong className="font-mono">{generatedResult.vitals.respiratoryRate}/min</strong></span>
+                <span>Resp: <strong>{generatedResult.vitals.respiratoryRate}/min</strong></span>
               )}
             </div>
           )}
 
           {/* SOAP Breakdown Tabs */}
-          <div className="space-y-2">
-            <div className="flex border-b border-slate-100 text-[11px] font-bold">
+          <div className="space-y-2 font-['Inter',sans-serif]">
+            <div className="flex border-b border-[#E8E2D8] text-[11px] font-bold gap-1 font-['Plus_Jakarta_Sans',sans-serif]">
               {['all', 'subjective', 'objective', 'assessment', 'plan'].map((tab) => (
                 <button
                   key={tab}
@@ -363,8 +363,8 @@ export default function AiAmbientScribe({ patientId, onApplySoap }) {
                   onClick={() => setActiveSoapTab(tab)}
                   className={`px-3 py-1.5 capitalize transition-colors cursor-pointer border-b-2 ${
                     activeSoapTab === tab
-                      ? 'border-indigo-600 text-indigo-700 font-extrabold'
-                      : 'border-transparent text-slate-450 hover:text-slate-700'
+                      ? 'border-[#1C1613] text-[#1C1613] font-bold'
+                      : 'border-transparent text-[#8C7A6E] hover:text-[#1C1613]'
                   }`}
                 >
                   {tab === 'all' ? 'Full SOAP' : tab}
@@ -372,47 +372,47 @@ export default function AiAmbientScribe({ patientId, onApplySoap }) {
               ))}
             </div>
 
-            <div className="p-3 bg-slate-50 rounded-lg border border-slate-200 text-xs leading-relaxed max-h-56 overflow-y-auto">
+            <div className="p-3.5 bg-[#FAF7F2] rounded-xl border border-[#E8E2D8] text-xs leading-relaxed max-h-56 overflow-y-auto">
               {activeSoapTab === 'all' && (
-                <div className="space-y-3 font-sans">
+                <div className="space-y-3">
                   <div>
-                    <span className="text-[10px] font-bold text-indigo-700 uppercase tracking-wide block">
+                    <span className="text-[10px] font-bold text-[#4A372E] uppercase tracking-wider block font-['Plus_Jakarta_Sans',sans-serif]">
                       [S] Subjective
                     </span>
-                    <p className="text-slate-700 mt-0.5">{generatedResult.soap.subjective}</p>
+                    <p className="text-[#1C1613] mt-0.5">{generatedResult.soap.subjective}</p>
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold text-indigo-700 uppercase tracking-wide block">
+                    <span className="text-[10px] font-bold text-[#4A372E] uppercase tracking-wider block font-['Plus_Jakarta_Sans',sans-serif]">
                       [O] Objective
                     </span>
-                    <p className="text-slate-700 mt-0.5">{generatedResult.soap.objective}</p>
+                    <p className="text-[#1C1613] mt-0.5">{generatedResult.soap.objective}</p>
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold text-indigo-700 uppercase tracking-wide block">
+                    <span className="text-[10px] font-bold text-[#4A372E] uppercase tracking-wider block font-['Plus_Jakarta_Sans',sans-serif]">
                       [A] Assessment
                     </span>
-                    <p className="text-slate-700 mt-0.5 font-semibold">{generatedResult.soap.assessment}</p>
+                    <p className="text-[#1C1613] mt-0.5 font-semibold">{generatedResult.soap.assessment}</p>
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold text-indigo-700 uppercase tracking-wide block">
+                    <span className="text-[10px] font-bold text-[#4A372E] uppercase tracking-wider block font-['Plus_Jakarta_Sans',sans-serif]">
                       [P] Plan
                     </span>
-                    <p className="text-slate-700 mt-0.5 whitespace-pre-line">{generatedResult.soap.plan}</p>
+                    <p className="text-[#1C1613] mt-0.5 whitespace-pre-line">{generatedResult.soap.plan}</p>
                   </div>
                 </div>
               )}
 
               {activeSoapTab === 'subjective' && (
-                <p className="text-slate-700 whitespace-pre-line">{generatedResult.soap.subjective}</p>
+                <p className="text-[#1C1613] whitespace-pre-line">{generatedResult.soap.subjective}</p>
               )}
               {activeSoapTab === 'objective' && (
-                <p className="text-slate-700 whitespace-pre-line">{generatedResult.soap.objective}</p>
+                <p className="text-[#1C1613] whitespace-pre-line">{generatedResult.soap.objective}</p>
               )}
               {activeSoapTab === 'assessment' && (
-                <p className="text-slate-700 font-semibold whitespace-pre-line">{generatedResult.soap.assessment}</p>
+                <p className="text-[#1C1613] font-semibold whitespace-pre-line">{generatedResult.soap.assessment}</p>
               )}
               {activeSoapTab === 'plan' && (
-                <p className="text-slate-700 whitespace-pre-line">{generatedResult.soap.plan}</p>
+                <p className="text-[#1C1613] whitespace-pre-line">{generatedResult.soap.plan}</p>
               )}
             </div>
           </div>

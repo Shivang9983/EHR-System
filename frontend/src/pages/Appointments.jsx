@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Calendar as CalendarIcon, Clock, Plus, User, FileText, CheckCircle2, ChevronLeft, ChevronRight, AlertCircle } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, Plus, User, FileText, CheckCircle2, ChevronLeft, ChevronRight, AlertCircle, X } from 'lucide-react';
 
 export default function Appointments() {
   const { authFetch, user } = useAuth();
@@ -129,7 +129,7 @@ export default function Appointments() {
   const getDaysInMonth = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
-    const month = date.getMonth(); // 0-indexed
+    const month = date.getMonth();
     const numDays = new Date(year, month + 1, 0).getDate();
     return Array.from({ length: numDays }, (_, i) => {
       const dayNum = i + 1;
@@ -146,16 +146,18 @@ export default function Appointments() {
   const currentMonthName = new Date(selectedDate).toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 font-['Plus_Jakarta_Sans',sans-serif]">
+      
+      {/* Title & Action */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold text-slate-800">Clinic Scheduling</h1>
-          <p className="text-xs text-slate-500">Manage patient checkups, clinic agendas, and scheduling boards</p>
+          <h1 className="text-lg font-bold text-[#1C1613] tracking-tight">Clinic Scheduling Matrix</h1>
+          <p className="text-xs text-[#8C7A6E]">Manage patient consultations, clinic agendas, and scheduling boards</p>
         </div>
         {['Admin', 'Receptionist'].includes(user?.role) && (
           <button
             onClick={() => setShowModal(true)}
-            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-xs transition-colors text-xs cursor-pointer"
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-[#1C1613] hover:bg-[#4A372E] text-white font-bold rounded-xl shadow-xs transition-all text-xs cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>New Appointment</span>
@@ -164,21 +166,22 @@ export default function Appointments() {
       </div>
 
       {errorMsg && (
-        <div className="p-3 text-xs text-rose-600 border border-rose-100 rounded-lg bg-rose-50 flex items-center gap-2 font-medium">
-          <AlertCircle className="w-4 h-4 text-rose-500 shrink-0" />
+        <div className="p-3.5 text-xs text-[#991B1B] border border-[#FEE2E2] rounded-xl bg-[#FDF2F2] flex items-center gap-2 font-medium shadow-2xs">
+          <AlertCircle className="w-4 h-4 text-[#991B1B] shrink-0" />
           <span>{errorMsg}</span>
         </div>
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
         {/* Calendar View */}
-        <div className="lg:col-span-2 p-6 rounded-xl bg-white border border-slate-200 shadow-3xs">
+        <div className="lg:col-span-2 p-6 rounded-2xl bg-white border border-[#E8E2D8] shadow-2xs">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-sm font-bold text-slate-800 flex items-center gap-2">
-              <CalendarIcon className="w-4.5 h-4.5 text-indigo-650" />
+            <h2 className="text-sm font-bold text-[#1C1613] flex items-center gap-2">
+              <CalendarIcon className="w-4.5 h-4.5 text-[#4A372E]" />
               <span>{currentMonthName} Calendar</span>
             </h2>
-            <div className="flex items-center gap-2 text-xs">
+            <div className="flex items-center gap-2 text-xs font-['Inter',sans-serif]">
               <input
                 type="month"
                 value={selectedDate.slice(0, 7)}
@@ -187,32 +190,32 @@ export default function Appointments() {
                     setSelectedDate(`${e.target.value}-01`);
                   }
                 }}
-                className="px-2 py-1 border border-slate-200 rounded text-xs focus:outline-none"
+                className="px-2.5 py-1 bg-[#FAF7F2] border border-[#E8E2D8] rounded-lg text-xs text-[#1C1613] focus:outline-none"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+          <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-[#8C7A6E] uppercase tracking-wider mb-2">
             <div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div><div>Sun</div>
           </div>
 
-          <div className="grid grid-cols-7 gap-2">
+          <div className="grid grid-cols-7 gap-2 font-['Inter',sans-serif]">
             {monthDays.map((d) => (
               <button
                 key={d.dateStr}
                 onClick={() => setSelectedDate(d.dateStr)}
-                className={`p-2 rounded-lg border text-center transition-all cursor-pointer flex flex-col items-center justify-between min-h-[72px] shadow-3xs ${
+                className={`p-2 rounded-xl border text-center transition-all cursor-pointer flex flex-col items-center justify-between min-h-[72px] shadow-3xs ${
                   selectedDate === d.dateStr
-                    ? 'bg-indigo-50 border-indigo-600 text-indigo-700'
-                    : 'bg-white border-slate-200 hover:border-slate-300 text-slate-700'
+                    ? 'bg-[#1C1613] border-[#1C1613] text-white'
+                    : 'bg-white border-[#E8E2D8] hover:border-[#8C7A6E] text-[#1C1613]'
                 }`}
               >
-                <span className="text-[10px] font-bold">{d.dayNum}</span>
+                <span className="text-[10px] font-bold font-mono">{d.dayNum}</span>
                 {d.appts.length > 0 && (
-                  <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded-md ${
-                    selectedDate === d.dateStr ? 'bg-indigo-200/55 text-indigo-800' : 'bg-slate-100 text-slate-655'
+                  <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-md ${
+                    selectedDate === d.dateStr ? 'bg-[#FAF7F2]/20 text-white' : 'bg-[#EAF2ED] text-[#2D5A43] border border-[#D5E5D9]'
                   }`}>
-                    {d.appts.length} {d.appts.length === 1 ? 'visit' : 'visits'}
+                    {d.appts.length} {d.appts.length === 1 ? 'slot' : 'slots'}
                   </span>
                 )}
               </button>
@@ -221,67 +224,67 @@ export default function Appointments() {
         </div>
 
         {/* Schedule List */}
-        <div className="lg:col-span-1 p-6 rounded-xl bg-white border border-slate-200 shadow-3xs space-y-6">
+        <div className="lg:col-span-1 p-6 rounded-2xl bg-white border border-[#E8E2D8] shadow-2xs space-y-6">
           <div>
-            <h2 className="text-sm font-bold text-slate-800">
+            <h2 className="text-sm font-bold text-[#1C1613]">
               Agenda • {new Date(selectedDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
             </h2>
-            <p className="text-[11px] text-slate-450 mt-0.5">Scheduled clinical slots for selected day</p>
+            <p className="text-[11px] text-[#8C7A6E] mt-0.5">Scheduled clinical slots for selected day</p>
           </div>
 
           {loading ? (
-            <div className="py-12 text-center text-slate-500 text-xs">Loading appointments...</div>
+            <div className="py-12 text-center text-[#8C7A6E] text-xs">Loading appointments...</div>
           ) : apptsForSelected.length === 0 ? (
-            <div className="py-12 text-center text-slate-500 italic text-xs border border-dashed border-slate-200 rounded-lg bg-slate-100/30">
-              No appointments scheduled.
+            <div className="py-12 text-center text-[#8C7A6E] italic text-xs border border-dashed border-[#E8E2D8] rounded-xl bg-[#FAF7F2]">
+              No appointments scheduled for this date.
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3 font-['Inter',sans-serif]">
               {apptsForSelected.map((appt) => (
-                <div key={appt._id} className="p-4 rounded-lg border border-slate-200 hover:border-indigo-600/30 transition-colors bg-slate-100/30 space-y-3 text-xs shadow-3xs">
-                  <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                    <span className="font-bold text-slate-800 flex items-center gap-1.5">
-                      <Clock className="w-3.5 h-3.5 text-indigo-600" />
+                <div key={appt._id} className="p-4 rounded-xl border border-[#E8E2D8] hover:border-[#1C1613]/30 transition-colors bg-[#FAF7F2] space-y-3 text-xs shadow-3xs">
+                  <div className="flex items-center justify-between border-b border-[#E8E2D8] pb-2">
+                    <span className="font-bold text-[#1C1613] flex items-center gap-1.5 font-mono">
+                      <Clock className="w-3.5 h-3.5 text-[#4A372E]" />
                       {appt.time}
                     </span>
                     <span className={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
                       appt.status === 'Completed'
-                        ? 'bg-emerald-50 text-emerald-700 border border-slate-200'
+                        ? 'bg-[#EAF2ED] text-[#2D5A43] border border-[#D5E5D9]'
                         : appt.status === 'Cancelled'
-                        ? 'bg-rose-50 text-rose-700 border border-slate-200'
-                        : 'bg-indigo-50 text-indigo-700 border border-slate-200'
+                        ? 'bg-[#FDF2F2] text-[#991B1B] border border-[#FEE2E2]'
+                        : 'bg-white text-[#4A372E] border border-[#E8E2D8]'
                     }`}>
                       {appt.status}
                     </span>
                   </div>
 
                   <div className="space-y-1.5">
-                    <div className="flex items-center gap-2 text-slate-700">
-                      <User className="w-3.5 h-3.5 text-slate-400" />
-                      <span className="font-semibold text-slate-800">
+                    <div className="flex items-center gap-2 text-[#1C1613]">
+                      <User className="w-3.5 h-3.5 text-[#8C7A6E]" />
+                      <span className="font-bold font-['Plus_Jakarta_Sans',sans-serif]">
                         {appt.patientId ? `${appt.patientId.firstName} ${appt.patientId.lastName}` : 'Unknown Patient'}
                       </span>
                     </div>
-                    <div className="text-[10px] text-slate-500 font-medium">
+                    <div className="text-[10px] text-[#8C7A6E] font-medium">
                       Clinician: {appt.doctorId?.username ? `Dr. ${appt.doctorId.username}` : 'Unassigned'}
                     </div>
-                    <div className="flex items-start gap-1.5 text-[10px] text-slate-655 bg-slate-100 p-2 rounded border border-slate-200 leading-relaxed shadow-3xs">
-                      <FileText className="w-3.5 h-3.5 text-slate-450 shrink-0 mt-0.5" />
+                    <div className="flex items-start gap-1.5 text-[10px] text-[#4A372E] bg-white p-2.5 rounded-lg border border-[#E8E2D8] leading-relaxed shadow-3xs">
+                      <FileText className="w-3.5 h-3.5 text-[#8C7A6E] shrink-0 mt-0.5" />
                       <span>{appt.reason}</span>
                     </div>
                   </div>
 
                   {appt.status === 'Scheduled' && (
-                    <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-200">
+                    <div className="flex items-center justify-end gap-2 pt-2 border-t border-[#E8E2D8]">
                       <button
                         onClick={() => handleUpdateStatus(appt._id, 'Completed')}
-                        className="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-50/70 border border-slate-250 text-emerald-700 rounded text-[10px] font-bold cursor-pointer transition-colors shadow-3xs"
+                        className="px-2.5 py-1 bg-[#EAF2ED] hover:bg-[#D5E5D9] border border-[#D5E5D9] text-[#2D5A43] rounded-lg text-[10px] font-bold cursor-pointer transition-colors shadow-3xs"
                       >
                         Complete
                       </button>
                       <button
                         onClick={() => handleUpdateStatus(appt._id, 'Cancelled')}
-                        className="px-2.5 py-1 bg-rose-50 hover:bg-rose-50/70 border border-slate-250 text-rose-600 rounded text-[10px] font-bold cursor-pointer transition-colors shadow-3xs"
+                        className="px-2.5 py-1 bg-[#FDF2F2] hover:bg-[#FEE2E2] border border-[#FEE2E2] text-[#991B1B] rounded-lg text-[10px] font-bold cursor-pointer transition-colors shadow-3xs"
                       >
                         Cancel
                       </button>
@@ -296,17 +299,19 @@ export default function Appointments() {
 
       {/* Scheduler Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs">
-          <div className="w-full max-w-md bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-100">
-              <h3 className="font-bold text-sm text-slate-800">Schedule Patient Checkup</h3>
-              <button onClick={() => setShowModal(false)} className="text-slate-450 hover:text-slate-700 text-xs font-semibold cursor-pointer">Close</button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1C1613]/40 backdrop-blur-xs font-['Inter',sans-serif]">
+          <div className="w-full max-w-md bg-white border border-[#E8E2D8] rounded-2xl shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[#E8E2D8] bg-[#FAF7F2]">
+              <h3 className="font-bold text-sm text-[#1C1613] font-['Plus_Jakarta_Sans',sans-serif]">Schedule Patient Checkup</h3>
+              <button onClick={() => setShowModal(false)} className="text-[#8C7A6E] hover:text-[#1C1613] text-xs font-semibold cursor-pointer">
+                <X className="w-4 h-4" />
+              </button>
             </div>
             <form onSubmit={handleCreateAppointment} className="p-6 space-y-4">
               <div>
-                <label className="block mb-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-wide">Patient Registry Chart *</label>
+                <label className="block mb-1.5 text-[10px] font-bold text-[#8C7A6E] uppercase tracking-wide font-['Plus_Jakarta_Sans',sans-serif]">Patient Registry Chart *</label>
                 {patients.length === 0 ? (
-                  <div className="text-xs text-rose-500 font-semibold italic">No registered patient charts found. Register a patient first.</div>
+                  <div className="text-xs text-[#991B1B] font-semibold italic">No registered patient charts found. Register a patient first.</div>
                 ) : (
                   <select
                     value={newAppt.patientId}
@@ -321,9 +326,9 @@ export default function Appointments() {
               </div>
 
               <div>
-                <label className="block mb-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-wide">Assign Doctor *</label>
+                <label className="block mb-1.5 text-[10px] font-bold text-[#8C7A6E] uppercase tracking-wide font-['Plus_Jakarta_Sans',sans-serif]">Assign Doctor *</label>
                 {doctors.length === 0 ? (
-                  <div className="text-xs text-rose-500 font-semibold italic">No active Doctors registered in your organization.</div>
+                  <div className="text-xs text-[#991B1B] font-semibold italic">No active Doctors registered in your organization.</div>
                 ) : (
                   <select
                     value={newAppt.doctorId}
@@ -339,7 +344,7 @@ export default function Appointments() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block mb-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-wide">Date *</label>
+                  <label className="block mb-1.5 text-[10px] font-bold text-[#8C7A6E] uppercase tracking-wide font-['Plus_Jakarta_Sans',sans-serif]">Date *</label>
                   <input
                     type="date"
                     required
@@ -349,7 +354,7 @@ export default function Appointments() {
                   />
                 </div>
                 <div>
-                  <label className="block mb-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-wide">Time Slot *</label>
+                  <label className="block mb-1.5 text-[10px] font-bold text-[#8C7A6E] uppercase tracking-wide font-['Plus_Jakarta_Sans',sans-serif]">Time Slot *</label>
                   <select
                     value={newAppt.time}
                     onChange={(e) => setNewAppt(prev => ({ ...prev, time: e.target.value }))}
@@ -366,7 +371,7 @@ export default function Appointments() {
                 </div>
               </div>
               <div>
-                <label className="block mb-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-wide">Chief Complaint / Reason *</label>
+                <label className="block mb-1.5 text-[10px] font-bold text-[#8C7A6E] uppercase tracking-wide font-['Plus_Jakarta_Sans',sans-serif]">Chief Complaint / Reason *</label>
                 <textarea
                   required
                   value={newAppt.reason}
@@ -376,18 +381,18 @@ export default function Appointments() {
                   className="w-full"
                 />
               </div>
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-200">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#E8E2D8]">
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 border border-slate-200 text-slate-655 hover:bg-slate-100 rounded-lg text-xs font-semibold cursor-pointer transition-colors shadow-3xs"
+                  className="px-4 py-2 border border-[#E8E2D8] text-[#8C7A6E] hover:bg-[#FAF7F2] rounded-xl text-xs font-bold cursor-pointer transition-colors shadow-3xs"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={patients.length === 0 || doctors.length === 0}
-                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg text-xs transition-colors cursor-pointer disabled:opacity-50 shadow-3xs"
+                  className="px-4 py-2 bg-[#1C1613] hover:bg-[#4A372E] text-white font-bold rounded-xl text-xs transition-colors cursor-pointer disabled:opacity-50 shadow-3xs"
                 >
                   Confirm Appointment
                 </button>

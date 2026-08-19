@@ -1,88 +1,81 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #f8fafc;
-  --card: #ffffff;
-  --card-secondary: #f8fafc;
-  --border: #e2e8f0;
-  --border-focus: #cbd5e1;
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
-  --primary-light: #f0f2fe;
-  --text: #0f172a;
-  --text-secondary: #64748b;
-  --muted: #94a3b8;
-  --danger: #ef4444;
-  --danger-bg: #fef2f2;
-  --success: #10b981;
-  --success-bg: #ecfdf5;
-  --warning: #f59e0b;
-  --warning-bg: #fef3c7;
-  --warning-text: #b45309;
-}
-
-html.dark {
-  color-scheme: dark;
-  --bg: #020617;
-  --card: #111827;
-  --card-secondary: #1e293b;
-  --border: #334155;
-  --border-focus: #475569;
-  --primary: #6366f1;
-  --primary-hover: #4f46e5;
-  --primary-light: rgba(99, 102, 241, 0.15);
-  --text: #f8fafc;
-  --text-secondary: #94a3b8;
-  --muted: #64748b;
-  --danger: #ef4444;
-  --danger-bg: rgba(239, 68, 68, 0.15);
-  --success: #22c55e;
-  --success-bg: rgba(34, 197, 94, 0.15);
-  --warning: #fbbf24;
-  --warning-bg: rgba(245, 158, 11, 0.15);
-  --warning-text: #fbbf24;
+  --bg: #FAF7F2;
+  --card: #FFFFFF;
+  --card-secondary: #FAF7F2;
+  --border: #E8E2D8;
+  --border-focus: #8C7A6E;
+  --primary: #1C1613;
+  --primary-hover: #4A372E;
+  --primary-light: #F2ECE4;
+  --text: #1C1613;
+  --text-secondary: #8C7A6E;
+  --muted: #8C7A6E;
+  --danger: #991B1B;
+  --danger-bg: #FDF2F2;
+  --success: #2D5A43;
+  --success-bg: #EAF2ED;
+  --warning: #B45309;
+  --warning-bg: #FEF3C7;
+  --warning-text: #92400E;
 }
 
 @theme {
   --color-slate-50: var(--bg);
   --color-white: var(--card);
   --color-slate-100: var(--card-secondary);
+  --color-slate-105: #F5EFEB;
   --color-slate-200: var(--border);
+  --color-slate-250: #DFD8CD;
   --color-slate-300: var(--border-focus);
   --color-slate-400: var(--muted);
+  --color-slate-450: var(--text-secondary);
+  --color-slate-455: var(--text-secondary);
   --color-slate-500: var(--text-secondary);
   --color-slate-600: var(--text-secondary);
-  --color-slate-700: var(--text-secondary);
+  --color-slate-650: var(--text-secondary);
+  --color-slate-655: var(--text);
+  --color-slate-700: var(--text);
+  --color-slate-750: var(--text);
   --color-slate-800: var(--text);
-  --color-slate-900: var(--text);
   --color-slate-805: var(--text);
   --color-slate-850: var(--text);
-  --color-slate-750: var(--text);
-  --color-slate-450: var(--text-secondary);
+  --color-slate-900: var(--text);
   --color-indigo-50: var(--primary-light);
-  --color-indigo-100: var(--border);
+  --color-indigo-100: #EAE3D9;
+  --color-indigo-150: #DFD7CC;
+  --color-indigo-200: #D3C9BC;
   --color-indigo-600: var(--primary);
-  --color-indigo-755: var(--primary);
   --color-indigo-650: var(--primary);
   --color-indigo-700: var(--primary-hover);
+  --color-indigo-755: var(--primary-hover);
   --color-emerald-50: var(--success-bg);
   --color-emerald-600: var(--success);
+  --color-emerald-650: var(--success);
   --color-emerald-700: var(--success);
   --color-amber-50: var(--warning-bg);
+  --color-amber-600: var(--warning);
+  --color-amber-655: var(--warning);
   --color-amber-700: var(--warning-text);
   --color-rose-50: var(--danger-bg);
+  --color-rose-100: #FEE2E2;
+  --color-rose-500: var(--danger);
+  --color-rose-505: var(--danger);
   --color-rose-600: var(--danger);
   --color-rose-605: var(--danger);
-  --shadow-3xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --color-rose-700: #7F1D1D;
+  --shadow-2xs: 0 1px 2px 0 rgba(28, 22, 19, 0.03);
+  --shadow-3xs: 0 1px 2px 0 rgba(28, 22, 19, 0.04);
 }
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-800 min-h-screen antialiased selection:bg-indigo-50 selection:text-indigo-900;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    @apply bg-[#FAF7F2] text-[#1C1613] min-h-screen antialiased selection:bg-[#E8E2D8] selection:text-[#1C1613];
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 
-  /* Form controls general polish */
+  /* Form controls standard styling */
   input[type="text"],
   input[type="number"],
   input[type="email"],
@@ -92,23 +85,22 @@ html.dark {
   input[type="month"],
   select,
   textarea {
-    @apply w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-800 text-xs placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-600/10 focus:border-indigo-600 transition-all duration-200 shadow-3xs;
+    @apply w-full px-3.5 py-2 bg-white border border-[#E8E2D8] rounded-xl text-[#1C1613] text-xs placeholder-[#8C7A6E]/70 focus:outline-none focus:ring-2 focus:ring-[#1C1613]/10 focus:border-[#1C1613] transition-all duration-150 shadow-2xs;
   }
 
   textarea {
     @apply resize-none leading-relaxed;
   }
 
-  /* Dropdown option background styling in dark mode */
   select option {
-    @apply bg-white text-slate-800;
+    @apply bg-white text-[#1C1613];
   }
 }
 
-/* Custom Scrollbars */
+/* Custom Minimal Scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -116,28 +108,9 @@ html.dark {
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-200 rounded-full;
+  @apply bg-[#E8E2D8] rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-slate-300;
+  @apply bg-[#8C7A6E];
 }
-
-/* Recharts grid lines & charts overrides */
-html.dark .recharts-cartesian-grid line {
-  stroke: var(--border) !important;
-}
-
-html.dark .recharts-default-tooltip {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
-  color: var(--text) !important;
-}
-
-html.dark table tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.02) !important;
-}
-
-
-
-

@@ -1,26 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { Menu, Calendar, ShieldCheck, Sun, Moon } from 'lucide-react';
+import { Menu, Calendar, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function Header({ onMenuToggle }) {
   const { user } = useAuth();
   const location = useLocation();
-
-  const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem('theme') === 'dark' || 
-           (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
-  });
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [darkMode]);
 
   // Determine current page title
   const getPageTitle = (pathname) => {
@@ -51,21 +36,21 @@ export default function Header({ onMenuToggle }) {
   });
 
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between w-full h-16 px-6 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-2xs select-none">
+    <header className="sticky top-0 z-30 flex items-center justify-between w-full h-16 px-6 bg-[#FAF7F2]/90 backdrop-blur-md border-b border-[#E8E2D8] select-none">
       <div className="flex items-center gap-3">
         {/* Mobile menu trigger */}
         <button
           onClick={onMenuToggle}
-          className="md:hidden p-1.5 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-800 transition-colors cursor-pointer"
+          className="md:hidden p-1.5 rounded-lg border border-[#E8E2D8] text-[#8C7A6E] hover:bg-white hover:text-[#1C1613] transition-colors cursor-pointer"
         >
           <Menu className="w-5 h-5" />
         </button>
         
         <div>
-          <h2 className="text-sm font-extrabold text-slate-800 tracking-tight leading-tight">
+          <h2 className="text-sm font-extrabold text-[#1C1613] tracking-tight leading-tight font-['Plus_Jakarta_Sans',sans-serif]">
             {getPageTitle(location.pathname)}
           </h2>
-          <p className="text-[10px] text-slate-400 mt-0.5 hidden sm:block">
+          <p className="text-[10px] text-[#8C7A6E] mt-0.5 hidden sm:block">
             {getPageSubtitle(location.pathname)}
           </p>
         </div>
@@ -73,24 +58,15 @@ export default function Header({ onMenuToggle }) {
 
       <div className="flex items-center gap-4">
         {/* Date Display */}
-        <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200/80 rounded-lg text-[10px] font-bold text-slate-500 shadow-3xs uppercase tracking-wider">
-          <Calendar className="w-3.5 h-3.5 text-indigo-650" />
+        <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-white border border-[#E8E2D8] rounded-lg text-[10px] font-bold text-[#8C7A6E] uppercase tracking-wider shadow-2xs font-mono">
+          <Calendar className="w-3.5 h-3.5 text-[#4A372E]" />
           <span>{formattedDate}</span>
         </div>
 
-        {/* Theme Toggle Button */}
-        <button
-          onClick={() => setDarkMode(!darkMode)}
-          title="Toggle Dark Mode"
-          className="p-1.5 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 transition-colors cursor-pointer flex items-center justify-center shrink-0"
-        >
-          {darkMode ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4 text-slate-500" />}
-        </button>
-
         {/* Status Badge */}
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-indigo-50 border border-slate-200 rounded-lg text-[10px] font-bold text-indigo-700 uppercase tracking-wider">
-          <ShieldCheck className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
-          <span className="hidden sm:inline">{user?.role} Active</span>
+        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-[#EAF2ED] border border-[#D5E5D9] rounded-lg text-[10px] font-bold text-[#2D5A43] uppercase tracking-wider shadow-2xs">
+          <ShieldCheck className="w-3.5 h-3.5 text-[#2D5A43] shrink-0" />
+          <span className="hidden sm:inline">{user?.role} Mode</span>
           <span className="sm:hidden">{user?.role}</span>
         </div>
       </div>

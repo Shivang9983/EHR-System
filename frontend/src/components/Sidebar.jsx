@@ -66,23 +66,25 @@ export default function Sidebar({ isOpen, onClose }) {
   };
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-white border-r border-slate-200">
+    <div className="flex flex-col h-full bg-white border-r border-[#E8E2D8]">
       {/* Brand Header */}
-      <div className="flex items-center justify-between px-6 py-5 border-b border-slate-250 shrink-0">
+      <div className="flex items-center justify-between px-6 py-5 border-b border-[#E8E2D8] shrink-0">
         <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-indigo-600 text-white shadow-sm">
-            <HeartPulse className="w-5 h-5 animate-pulse" />
+          <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-[#1C1613] text-[#FAF7F2] shadow-xs">
+            <HeartPulse className="w-5 h-5" />
           </div>
           <div>
-            <h1 className="text-sm font-extrabold text-slate-900 tracking-tight">EHR Management</h1>
-            <p className="text-[9px] font-bold text-indigo-650 uppercase tracking-wider">Clinical Suite</p>
+            <h1 className="text-sm font-extrabold text-[#1C1613] tracking-tight font-['Plus_Jakarta_Sans',sans-serif]">
+              EHR Clinical Suite
+            </h1>
+            <p className="text-[9px] font-bold text-[#8C7A6E] uppercase tracking-wider">Practice OS</p>
           </div>
         </div>
         {/* Mobile Close Button */}
         {onClose && (
           <button 
             onClick={onClose} 
-            className="md:hidden p-1.5 rounded-lg text-slate-400 hover:bg-slate-50 hover:text-slate-600 transition-colors"
+            className="md:hidden p-1.5 rounded-lg text-[#8C7A6E] hover:bg-[#FAF7F2] hover:text-[#1C1613] transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -98,13 +100,13 @@ export default function Sidebar({ isOpen, onClose }) {
               key={item.path}
               to={item.path}
               onClick={onClose}
-              className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200 ${
+              className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-150 ${
                 isActive
-                  ? 'bg-indigo-50 text-indigo-700 shadow-3xs border-l-2 border-indigo-600 pl-3.5'
-                  : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+                  ? 'bg-[#1C1613] text-white shadow-xs font-bold'
+                  : 'text-[#8C7A6E] hover:bg-[#FAF7F2] hover:text-[#1C1613]'
               }`}
             >
-              <item.icon className={`w-4.5 h-4.5 shrink-0 ${isActive ? 'text-indigo-600' : 'text-slate-400 group-hover:text-slate-500'}`} />
+              <item.icon className={`w-4.5 h-4.5 shrink-0 ${isActive ? 'text-white' : 'text-[#8C7A6E] group-hover:text-[#1C1613]'}`} />
               <span>{item.label}</span>
             </NavLink>
           );
@@ -112,25 +114,27 @@ export default function Sidebar({ isOpen, onClose }) {
       </nav>
 
       {/* User Information Profile Banner */}
-      <div className="p-4 border-t border-slate-200 bg-slate-50/30 shrink-0">
-        <div className="flex items-center justify-between gap-3 p-2 bg-white border border-slate-200 rounded-xl shadow-3xs">
+      <div className="p-4 border-t border-[#E8E2D8] bg-[#FAF7F2] shrink-0">
+        <div className="flex items-center justify-between gap-3 p-2.5 bg-white border border-[#E8E2D8] rounded-xl shadow-2xs">
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-50 border border-slate-200 text-indigo-700 font-extrabold text-xs shrink-0">
+            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#FAF7F2] border border-[#E8E2D8] text-[#1C1613] font-bold text-xs shrink-0 font-mono">
               {getInitials(user?.username)}
             </div>
             <div className="min-w-0">
-              <h4 className="text-xs font-bold text-slate-800 truncate">{user?.username || 'Clinician'}</h4>
-              <span className="inline-block text-[9px] font-extrabold text-indigo-650 tracking-wide uppercase mt-0.5">
-                {user?.role || 'Staff'}
+              <h4 className="text-xs font-bold text-[#1C1613] truncate font-['Plus_Jakarta_Sans',sans-serif]">
+                {user?.username || 'Clinician'}
+              </h4>
+              <span className="inline-block text-[9px] font-bold text-[#8C7A6E] tracking-wide uppercase">
+                {user?.role || 'Staff'} Role
               </span>
             </div>
           </div>
           <button
             onClick={handleLogout}
             title="Log Out"
-            className="p-1.5 rounded-lg text-slate-400 hover:bg-rose-50 hover:text-rose-600 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-[#8C7A6E] hover:bg-[#FDF2F2] hover:text-[#991B1B] transition-colors cursor-pointer"
           >
-            <LogOut className="w-4.5 h-4.5" />
+            <LogOut className="w-4 h-4" />
           </button>
         </div>
       </div>
@@ -148,7 +152,7 @@ export default function Sidebar({ isOpen, onClose }) {
       {isOpen && (
         <div 
           onClick={onClose} 
-          className="md:hidden fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-xs transition-opacity duration-300"
+          className="md:hidden fixed inset-0 z-40 bg-[#1C1613]/40 backdrop-blur-xs transition-opacity duration-300"
         />
       )}
 

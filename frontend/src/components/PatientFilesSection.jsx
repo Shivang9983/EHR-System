@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { FileText, Upload, Download, Trash2, ShieldAlert, File } from 'lucide-react';
+import { FileText, Upload, Download, Trash2, ShieldAlert, File, Loader2 } from 'lucide-react';
 
 export default function PatientFilesSection({ patientId }) {
   const { authFetch, user } = useAuth();
@@ -38,7 +38,6 @@ export default function PatientFilesSection({ patientId }) {
     const file = e.target.files[0];
     if (file) {
       setSelectedFile(file);
-      // Pre-fill file name if empty
       if (!fileName) {
         setFileName(file.name.split('.').slice(0, -1).join('.'));
       }
@@ -68,7 +67,6 @@ export default function PatientFilesSection({ patientId }) {
       formData.append('fileType', fileType);
       formData.append('name', fileName.trim());
 
-      // Send via authFetch (needs multipart headers overridden, let's write a standard fetch call)
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/files/upload`, {
         method: 'POST',
         headers: {
@@ -84,7 +82,6 @@ export default function PatientFilesSection({ patientId }) {
         setFiles(prev => [data.file, ...prev]);
         setFileName('');
         setSelectedFile(null);
-        // Reset file input
         const fileInput = document.getElementById('patient-file-input');
         if (fileInput) fileInput.value = '';
       } else {
@@ -129,32 +126,32 @@ export default function PatientFilesSection({ patientId }) {
   };
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-3xs p-6 space-y-6">
-      <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+    <div className="bg-white rounded-2xl border border-[#E8E2D8] shadow-2xs p-6 space-y-6 font-['Plus_Jakarta_Sans',sans-serif]">
+      <div className="flex items-center justify-between border-b border-[#E8E2D8] pb-3">
         <div>
-          <h2 className="text-xs font-bold text-slate-800 uppercase tracking-wide">Scans & Medical Documents</h2>
-          <p className="text-[10px] text-slate-500 mt-0.5">Upload and store patient records, prescriptions, and images</p>
+          <h2 className="text-xs font-bold text-[#1C1613] uppercase tracking-wide">Scans & Medical Documents</h2>
+          <p className="text-[10px] text-[#8C7A6E] mt-0.5">Diagnostic scans, lab reports, and clinical attachments</p>
         </div>
-        <FileText className="w-4.5 h-4.5 text-indigo-650 shrink-0" />
+        <FileText className="w-4.5 h-4.5 text-[#4A372E] shrink-0" />
       </div>
 
       {/* Upload Form - Doctors and Admins only */}
       {['Admin', 'Doctor'].includes(user?.role) ? (
-        <form onSubmit={handleUploadSubmit} className="p-4 bg-slate-100 border border-slate-200 rounded-xl space-y-3.5 text-xs shadow-3xs">
+        <form onSubmit={handleUploadSubmit} className="p-4 bg-[#FAF7F2] border border-[#E8E2D8] rounded-xl space-y-3.5 text-xs shadow-3xs font-['Inter',sans-serif]">
           <div className="space-y-3">
             <div>
-              <label className="block mb-1 text-[10px] font-bold text-slate-500 uppercase tracking-wide">Document Name *</label>
+              <label className="block mb-1 text-[10px] font-bold text-[#8C7A6E] uppercase tracking-wider font-['Plus_Jakarta_Sans',sans-serif]">Document Name *</label>
               <input
                 type="text"
                 required
                 value={fileName}
                 onChange={(e) => setFileName(e.target.value)}
-                placeholder="e.g. Chest X-Ray Report"
+                placeholder="e.g. Chest X-Ray PA View"
                 className="w-full"
               />
             </div>
             <div>
-              <label className="block mb-1 text-[10px] font-bold text-slate-500 uppercase tracking-wide">Document Type *</label>
+              <label className="block mb-1 text-[10px] font-bold text-[#8C7A6E] uppercase tracking-wider font-['Plus_Jakarta_Sans',sans-serif]">Document Type *</label>
               <select
                 value={fileType}
                 onChange={(e) => setFileType(e.target.value)}
@@ -167,58 +164,58 @@ export default function PatientFilesSection({ patientId }) {
               </select>
             </div>
             <div>
-              <label className="block mb-1 text-[10px] font-bold text-slate-500 uppercase tracking-wide">Select File *</label>
+              <label className="block mb-1 text-[10px] font-bold text-[#8C7A6E] uppercase tracking-wider font-['Plus_Jakarta_Sans',sans-serif]">Select File *</label>
               <input
                 id="patient-file-input"
                 type="file"
                 required
                 onChange={handleFileChange}
-                className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-slate-600 focus:outline-none file:mr-2.5 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-150 cursor-pointer text-xs"
+                className="w-full px-3 py-1.5 bg-white border border-[#E8E2D8] rounded-xl text-[#1C1613] focus:outline-none file:mr-2.5 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-bold file:bg-[#1C1613] file:text-white hover:file:bg-[#4A372E] cursor-pointer text-xs"
               />
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-slate-200">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-[#E8E2D8]">
             <div className="text-[10px] min-h-[14px]">
-              {errorMsg && <span className="text-rose-600 font-bold">{errorMsg}</span>}
-              {successMsg && <span className="text-emerald-600 font-bold">{successMsg}</span>}
+              {errorMsg && <span className="text-[#991B1B] font-bold">{errorMsg}</span>}
+              {successMsg && <span className="text-[#2D5A43] font-bold">{successMsg}</span>}
             </div>
             <button
               type="submit"
               disabled={uploading}
-              className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-bold rounded-lg cursor-pointer transition-colors shadow-3xs text-xs"
+              className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-4 py-2 bg-[#1C1613] hover:bg-[#4A372E] disabled:opacity-50 text-white font-bold rounded-xl cursor-pointer transition-all shadow-3xs text-xs font-['Plus_Jakarta_Sans',sans-serif]"
             >
-              <Upload className="w-3.5 h-3.5" />
+              {uploading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
               <span>{uploading ? 'Uploading...' : 'Upload Document'}</span>
             </button>
           </div>
         </form>
       ) : (
-        <div className="p-3 bg-slate-100 border border-slate-200 rounded-lg text-[10px] text-slate-455 italic flex items-center gap-2">
-          <ShieldAlert className="w-3.5 h-3.5 text-slate-400" />
+        <div className="p-3 bg-[#FAF7F2] border border-[#E8E2D8] rounded-xl text-[10px] text-[#8C7A6E] italic flex items-center gap-2">
+          <ShieldAlert className="w-3.5 h-3.5 text-[#8C7A6E]" />
           <span>Read-only access. Only Admin or Doctor roles can upload new medical records.</span>
         </div>
       )}
 
       {/* File List */}
       {loading ? (
-        <div className="text-center text-slate-500 text-xs py-4">Reading documents index...</div>
+        <div className="text-center text-[#8C7A6E] text-xs py-4">Reading documents index...</div>
       ) : files.length === 0 ? (
-        <div className="text-center text-slate-450 text-xs py-8 border border-dashed border-slate-200 rounded-lg bg-slate-100/30 italic">
+        <div className="text-center text-[#8C7A6E] text-xs py-8 border border-dashed border-[#E8E2D8] rounded-xl bg-[#FAF7F2] italic">
           No medical records uploaded for this patient.
         </div>
       ) : (
-        <div className="divide-y divide-slate-200 border border-slate-200 rounded-lg overflow-hidden">
+        <div className="divide-y divide-[#E8E2D8] border border-[#E8E2D8] rounded-xl overflow-hidden font-['Inter',sans-serif]">
           {files.map((file) => (
-            <div key={file._id} className="p-3.5 flex items-center justify-between text-xs hover:bg-slate-100/20 transition-colors">
+            <div key={file._id} className="p-3.5 flex items-center justify-between text-xs hover:bg-[#FAF7F2] transition-colors">
               <div className="flex items-center gap-3 min-w-0">
-                <div className="w-8 h-8 rounded-lg bg-indigo-50 border border-slate-200 text-indigo-700 flex items-center justify-center shrink-0 shadow-3xs">
-                  <File className="w-4.5 h-4.5" />
+                <div className="w-8 h-8 rounded-lg bg-[#FAF7F2] border border-[#E8E2D8] text-[#1C1613] flex items-center justify-center shrink-0 shadow-3xs">
+                  <File className="w-4 h-4" />
                 </div>
                 <div className="min-w-0">
-                  <h4 className="font-bold text-slate-800 truncate leading-snug">{file.name}</h4>
-                  <p className="text-[10px] text-slate-500 mt-0.5">
-                    <span className="font-semibold text-indigo-700 bg-indigo-50 border border-slate-200 rounded px-1.5 py-0.5 mr-2 text-[9px] uppercase tracking-wide">{file.fileType}</span>
+                  <h4 className="font-bold text-[#1C1613] truncate leading-snug font-['Plus_Jakarta_Sans',sans-serif]">{file.name}</h4>
+                  <p className="text-[10px] text-[#8C7A6E] mt-0.5">
+                    <span className="font-bold text-[#2D5A43] bg-[#EAF2ED] border border-[#D5E5D9] rounded px-1.5 py-0.2 mr-2 text-[9px] uppercase tracking-wide">{file.fileType}</span>
                     {formatBytes(file.fileSize)} • By {file.uploadedBy?.username || 'Staff'} • {new Date(file.createdAt).toLocaleDateString()}
                   </p>
                 </div>
@@ -229,7 +226,7 @@ export default function PatientFilesSection({ patientId }) {
                   href={file.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-1.5 border border-slate-200 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-800 transition-colors"
+                  className="p-1.5 border border-[#E8E2D8] rounded-lg text-[#8C7A6E] hover:bg-white hover:text-[#1C1613] transition-colors"
                   title="Download File"
                 >
                   <Download className="w-4 h-4" />
@@ -237,7 +234,7 @@ export default function PatientFilesSection({ patientId }) {
                 {['Admin', 'Doctor'].includes(user?.role) && (
                   <button
                     onClick={() => handleDeleteFile(file._id)}
-                    className="p-1.5 border border-slate-200 rounded-lg text-rose-600 hover:bg-rose-50 hover:text-rose-700 transition-colors cursor-pointer"
+                    className="p-1.5 border border-[#FEE2E2] rounded-lg text-[#991B1B] hover:bg-[#FDF2F2] transition-colors cursor-pointer"
                     title="Delete File"
                   >
                     <Trash2 className="w-4 h-4" />

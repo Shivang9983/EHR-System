@@ -6,7 +6,7 @@ export default function DashboardLayout({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="flex w-full min-h-screen bg-slate-50 text-slate-800">
+    <div className="flex w-full min-h-screen bg-[#FAF7F2] text-[#1C1613] font-['Plus_Jakarta_Sans',sans-serif] antialiased selection:bg-[#E8E2D8] selection:text-[#1C1613]">
       {/* Sidebar Component (Handles Desktop & Mobile states) */}
       <Sidebar 
         isOpen={isSidebarOpen} 
