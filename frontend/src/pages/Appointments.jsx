@@ -152,7 +152,7 @@ export default function Appointments() {
           <h1 className="text-xl font-bold text-slate-800">Clinic Scheduling</h1>
           <p className="text-xs text-slate-500">Manage patient checkups, clinic agendas, and scheduling boards</p>
         </div>
-        {user?.role !== 'Doctor' && (
+        {['Admin', 'Receptionist'].includes(user?.role) && (
           <button
             onClick={() => setShowModal(true)}
             className="flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-xs transition-colors text-xs cursor-pointer"

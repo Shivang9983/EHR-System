@@ -139,7 +139,7 @@ export default function PatientFilesSection({ patientId }) {
       </div>
 
       {/* Upload Form - Doctors and Admins only */}
-      {user?.role !== 'Receptionist' ? (
+      {['Admin', 'Doctor'].includes(user?.role) ? (
         <form onSubmit={handleUploadSubmit} className="p-4 bg-slate-100 border border-slate-200 rounded-xl space-y-3.5 text-xs shadow-3xs">
           <div className="space-y-3">
             <div>
@@ -194,7 +194,7 @@ export default function PatientFilesSection({ patientId }) {
           </div>
         </form>
       ) : (
-        <div className="p-3 bg-slate-100 border border-slate-200 rounded-lg text-[10px] text-slate-450 italic flex items-center gap-2">
+        <div className="p-3 bg-slate-100 border border-slate-200 rounded-lg text-[10px] text-slate-455 italic flex items-center gap-2">
           <ShieldAlert className="w-3.5 h-3.5 text-slate-400" />
           <span>Read-only access. Only Admin or Doctor roles can upload new medical records.</span>
         </div>
@@ -234,7 +234,7 @@ export default function PatientFilesSection({ patientId }) {
                 >
                   <Download className="w-4 h-4" />
                 </a>
-                {user?.role !== 'Receptionist' && (
+                {['Admin', 'Doctor'].includes(user?.role) && (
                   <button
                     onClick={() => handleDeleteFile(file._id)}
                     className="p-1.5 border border-slate-200 rounded-lg text-rose-600 hover:bg-rose-50 hover:text-rose-700 transition-colors cursor-pointer"

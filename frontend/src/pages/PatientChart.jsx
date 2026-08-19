@@ -124,15 +124,17 @@ export default function PatientChart() {
             <span>Download Report</span>
           </button>
 
-          <button
-            onClick={() => setIsDeleteModalOpen(true)}
-            className="flex items-center justify-center gap-2 px-3.5 py-2 bg-rose-50 border border-rose-100 text-rose-600 hover:bg-rose-100/50 hover:text-rose-700 font-bold rounded-lg transition-all text-xs cursor-pointer shadow-2xs"
-          >
-            <Trash2 className="w-4 h-4 shrink-0" />
-            <span>Delete Patient</span>
-          </button>
+          {['Admin', 'Doctor'].includes(user?.role) && (
+            <button
+              onClick={() => setIsDeleteModalOpen(true)}
+              className="flex items-center justify-center gap-2 px-3.5 py-2 bg-rose-50 border border-rose-100 text-rose-600 hover:bg-rose-100/50 hover:text-rose-700 font-bold rounded-lg transition-all text-xs cursor-pointer shadow-2xs"
+            >
+              <Trash2 className="w-4 h-4 shrink-0" />
+              <span>Delete Patient</span>
+            </button>
+          )}
 
-          {user?.role === 'Doctor' ? (
+          {['Admin', 'Doctor'].includes(user?.role) ? (
             <button
               onClick={() => setIsEncounterModalOpen(true)}
               className="flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg shadow-xs transition-colors text-xs cursor-pointer"
@@ -142,7 +144,7 @@ export default function PatientChart() {
             </button>
           ) : (
             <div className="text-[10px] text-slate-400 max-w-[150px] leading-tight text-right italic font-medium">
-              Read-only mode. Doctor credentials required to add clinical notes.
+              Read-only mode. Doctor or Admin credentials required to add clinical notes.
             </div>
           )}
         </div>
